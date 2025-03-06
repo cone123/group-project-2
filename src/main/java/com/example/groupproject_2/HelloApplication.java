@@ -1,24 +1,24 @@
 package com.example.groupproject_2;
-
+import com.example.groupproject_2.Scenes.IntroScene;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 public class HelloApplication extends Application {
+
+    public static Stage mainStage;
+
     @Override
     public void start(Stage stage) throws IOException {
-        BorderPane root = new BorderPane();
 
-        Scene scene = new Scene(root, 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+
+        //makes the stage globally accessible, so we can use it in other files
+        mainStage = stage;
+        mainStage.setTitle("Hello!");
+        mainStage.setScene(new IntroScene());
+        mainStage.show();
     }
-
     public static void main(String[] args) {
         launch();
     }
