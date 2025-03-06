@@ -30,6 +30,10 @@ public class IntroPane extends BorderPane {
         Button newGame = new Button("New Game");
         Button loadGame = new Button("Load Game");
         Button options = new Button("Options");
+        // removing highlight doesnt look pretty
+        newGame.setFocusTraversable(false);
+        loadGame.setFocusTraversable(false);
+        options.setFocusTraversable(false);
         HBox menuBox = new HBox();
         menuBox.getChildren().addAll(newGame,loadGame,options);
         menuBox.setAlignment(Pos.CENTER);
