@@ -76,22 +76,22 @@ public class IntroPane extends BorderPane {
 
         // Title animations
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000), title);
-        fadeTransition.setFromValue(0.1); // Fade from 10% opacity
-        fadeTransition.setToValue(1);     // To 100% opacity
+        fadeTransition.setFromValue(0.1);
+        fadeTransition.setToValue(1);
 
         TranslateTransition titleTranslate = new TranslateTransition(Duration.millis(1000), title);
-        titleTranslate.setFromX(-250);    // Start off-screen left
-        titleTranslate.setToX(0);         // Move to center
+        titleTranslate.setFromX(-250);
+        titleTranslate.setToX(0);
         titleTranslate.setInterpolator(Interpolator.LINEAR);
 
         // Buttons transition
         FadeTransition buttonFade = new FadeTransition(Duration.millis(1000), menuBox);
-        buttonFade.setFromValue(0.1); // Fade from 10% opacity
-        buttonFade.setToValue(1);     // To 100% opacity
+        buttonFade.setFromValue(0.1);
+        buttonFade.setToValue(1);
 
         TranslateTransition buttonTranslate = new TranslateTransition(Duration.millis(1000), menuBox);
-        buttonTranslate.setFromY(1000);    // Start off-screen left
-        buttonTranslate.setToY(0);         // Move to center
+        buttonTranslate.setFromY(1000);
+        buttonTranslate.setToY(0);
         buttonTranslate.setInterpolator(Interpolator.LINEAR);
 
         ParallelTransition titleTransition = new ParallelTransition(fadeTransition,titleTranslate,buttonTranslate,buttonFade);
