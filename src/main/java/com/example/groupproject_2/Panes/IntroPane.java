@@ -80,65 +80,88 @@ public class IntroPane extends BorderPane {
 
         // Title animations
         FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000), title);
-        fadeTransition.setFromValue(0.1); // Fade from 10% opacity
-        fadeTransition.setToValue(1);     // To 100% opacity
+        fadeTransition.setFromValue(0.1);
+        fadeTransition.setToValue(1);
 
         TranslateTransition titleTranslate = new TranslateTransition(Duration.millis(1000), title);
-        titleTranslate.setFromX(-250);    // Start off-screen left
-        titleTranslate.setToX(0);         // Move to center
+        titleTranslate.setFromX(-250);
+        titleTranslate.setToX(0);
         titleTranslate.setInterpolator(Interpolator.LINEAR);
 
         // Buttons transition
         FadeTransition buttonFade = new FadeTransition(Duration.millis(1000), menuBox);
-        buttonFade.setFromValue(0.1); // Fade from 10% opacity
-        buttonFade.setToValue(1);     // To 100% opacity
+        buttonFade.setFromValue(0.1);
+        buttonFade.setToValue(1);
 
         TranslateTransition buttonTranslate = new TranslateTransition(Duration.millis(1000), menuBox);
-        buttonTranslate.setFromY(1000);    // Start off-screen left
-        buttonTranslate.setToY(0);         // Move to center
+        buttonTranslate.setFromY(1000);
+        buttonTranslate.setToY(0);
         buttonTranslate.setInterpolator(Interpolator.LINEAR);
 
         ParallelTransition titleTransition = new ParallelTransition(fadeTransition,titleTranslate,buttonTranslate,buttonFade);
         ArrayList<TranslateTransition> swordBouncesIn = new ArrayList<>();
+        ArrayList<TranslateTransition> swordBouncesOut = new ArrayList<>();
+
         for (Node item: centerPane.getChildren()){
             if (item instanceof ImageView){
-                swordBouncesIn.add(new TranslateTransition(Duration.millis(200),item));
+                swordBouncesIn.add(new TranslateTransition(Duration.millis(200), item));
+                swordBouncesOut.add(new TranslateTransition(Duration.millis(200), item));
             }
         }
         for (int i = 0; i<16; i++) {
             swordBouncesIn.get(i).setFromX(-200+i*27);
-            swordBouncesIn.get(i).setFromY(-70);
-            swordBouncesIn.get(i).setToY(-50);
-            swordBouncesIn.get(i).setAutoReverse(true);
+            swordBouncesIn.get(i).setFromY(-50);
+            swordBouncesIn.get(i).setToY(-70);
             swordBouncesIn.get(i).getNode().setRotate(140);
+
+            swordBouncesOut.get(i).setFromY(-70);
+            swordBouncesOut.get(i).setToY(-50);
         }
         for (int i = 0; i<4; i++){
-            swordBouncesIn.get(i+16).setFromX(260);
-            swordBouncesIn.get(i+16).setToX(240);
+            swordBouncesIn.get(i+16).setFromX(240);
+            swordBouncesIn.get(i+16).setToX(260);
             swordBouncesIn.get(i+16).setFromY(-70 + i * 46);
-            swordBouncesIn.get(i+16).setAutoReverse(true);
             swordBouncesIn.get(i+16).getNode().setRotate(-129);
+
+            swordBouncesOut.get(i+16).setFromX(260);
+            swordBouncesOut.get(i+16).setToX(240);
         }
         for (int i = 0; i<16; i++) {
             swordBouncesIn.get(i+20).setFromX(200-i*27);
-            swordBouncesIn.get(i+20).setFromY(70);
-            swordBouncesIn.get(i+20).setToY(50);
-            swordBouncesIn.get(i+20).setAutoReverse(true);
+            swordBouncesIn.get(i+20).setFromY(50);
+            swordBouncesIn.get(i+20).setToY(70);
             swordBouncesIn.get(i+20).getNode().setRotate(-37);
+
+            swordBouncesOut.get(i+20).setFromY(70);
+            swordBouncesOut.get(i+20).setToY(50);
         }
         for (int i = 0; i<4; i++){
-            swordBouncesIn.get(i+36).setFromX(-260);
-            swordBouncesIn.get(i+36).setToX(-240);
+            swordBouncesIn.get(i+36).setFromX(-240);
+            swordBouncesIn.get(i+36).setToX(-260);
             swordBouncesIn.get(i+36).setFromY(70 - i * 46);
-            swordBouncesIn.get(i+36).setAutoReverse(true);
             swordBouncesIn.get(i+36).getNode().setRotate(51);
+
+            swordBouncesOut.get(i+36).setFromX(-260);
+            swordBouncesOut.get(i+36).setToX(-240);
         }
         SequentialTransition swordsSequence = new SequentialTransition();
-        for (TranslateTransition translation:swordBouncesIn){
-            translation.setDuration(Duration.millis(50));
-            swordsSequence.getChildren().add(translation);
+
+
+        for (int i = 0; i<swordBouncesIn.size(); i++){
+            try{
+                swordBouncesIn.get(i).setDuration(Duration.millis(50));
+                swordsSequence.getChildren().add(swordBouncesIn.get(i));
+                swordBouncesOut.get(i+2).setDuration(Duration.millis(50));
+                swordsSequence.getChildren().add(swordBouncesOut.get(i+2));
+                swordBouncesIn.get(i+20).setDuration(Duration.millis(50));
+                swordsSequence.getChildren().add(swordBouncesIn.get(i+20));
+                swordBouncesOut.get(i+22).setDuration(Duration.millis(50));
+                swordsSequence.getChildren().add(swordBouncesOut.get(i+22));
+            }catch (Exception e){
+                e.getStackTrace();
+            }
         }
-        swordsSequence.setCycleCount(5);
+        swordsSequence.setCycleCount(Animation.INDEFINITE);
         swordsSequence.play();
 
         SequentialTransition start = new SequentialTransition(titleTransition);
