@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 public class GamePane extends HBox {
 
     public GamePane() {
-
+        // TODO im gonna add all the features im gonna update this when im home
         // Left side (Upgrade Box)
         VBox upgradeBox = new VBox(10);
         upgradeBox.setBackground(Background.fill(Color.GREEN));
