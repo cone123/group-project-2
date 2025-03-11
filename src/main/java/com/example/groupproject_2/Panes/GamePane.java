@@ -1,8 +1,12 @@
 package com.example.groupproject_2.Panes;
 
-import com.example.groupproject_2.Classes.Player;
+import static com.example.groupproject_2.Classes.Player.*;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
+import com.example.groupproject_2.HelloApplication;
+import com.example.groupproject_2.Scenes.GameScene;
+import com.example.groupproject_2.Scenes.IntroScene;
+import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -10,11 +14,10 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-public class GamePane extends HBox {
-private Player player;
-    public GamePane() {
 
-        player = new Player();
+public class GamePane extends HBox {
+    public GamePane() {
+        
         // money and click power text
         Label moneyLabel = new Label("Money: " + player.getMoney());
         Label clickPowerLabel = new Label("Click Power: " + player.getClickPower());
@@ -72,6 +75,10 @@ private Player player;
             }else if(!achievementList.isVisible()) {
                 achievementList.setVisible(true);
             }
+        });
+        options.setOnAction(e->{
+            player.setPreviousScene(new GameScene());
+            HelloApplication.mainStage.setScene(new OptionScene());
         });
         // addin children
         buttonArea.getChildren().addAll(upgradeMenu, achievements, options);

@@ -3,11 +3,13 @@ package com.example.groupproject_2.Panes;
 import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.GameScene;
+import com.example.groupproject_2.Scenes.IntroScene;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import static com.example.groupproject_2.Classes.Player.*;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -169,9 +171,16 @@ public class IntroPane extends BorderPane {
 
         // Switch to GameScene on click
         newGame.setOnMouseClicked(e -> {
+            player.setPreviousScene(new IntroScene());
             HelloApplication.mainStage.setScene(new GameScene());
         });
+        loadGame.setOnMouseClicked(e->{
+            player.setPreviousScene(new IntroScene());
+            HelloApplication.mainStage.setScene(new GameScene());
+            //do other stuff like load a file and pass data to game screen
+        });
         options.setOnMouseClicked(e -> {
+            player.setPreviousScene(new IntroScene());
             HelloApplication.mainStage.setScene(new OptionScene());
         });
     }
