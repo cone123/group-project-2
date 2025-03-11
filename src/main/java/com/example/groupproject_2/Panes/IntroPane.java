@@ -3,6 +3,7 @@ package com.example.groupproject_2.Panes;
 import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.GameScene;
+import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.*;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -30,7 +31,7 @@ public class IntroPane extends BorderPane {
         Button newGame = new Button("New Game");
         Button loadGame = new Button("Load Game");
         Button options = new Button("Options");
-        // removing highlight doesnt look pretty
+
         newGame.setFocusTraversable(false);
         loadGame.setFocusTraversable(false);
         options.setFocusTraversable(false);
@@ -162,14 +163,16 @@ public class IntroPane extends BorderPane {
             }
         }
         swordsSequence.setCycleCount(Animation.INDEFINITE);
-        swordsSequence.play();
 
-        SequentialTransition start = new SequentialTransition(titleTransition);
+        SequentialTransition start = new SequentialTransition(titleTransition, swordsSequence);
         start.play();
 
         // Switch to GameScene on click
         newGame.setOnMouseClicked(e -> {
             HelloApplication.mainStage.setScene(new GameScene());
+        });
+        options.setOnMouseClicked(e -> {
+            HelloApplication.mainStage.setScene(new OptionScene());
         });
     }
 }
