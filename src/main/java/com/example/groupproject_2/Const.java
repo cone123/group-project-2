@@ -11,8 +11,8 @@ public class Const {
     //Declare Fonts here
     public static final Font ImpactBoldRegular = Font.font("Impact", FontWeight.BOLD, FontPosture.REGULAR,50);
 
-
-    //Colors
+    //Hit Box size
+    public static final int HIT_BOX_SIZE = 75;
 
 
     //Title font size
