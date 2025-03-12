@@ -1,6 +1,5 @@
 package com.example.groupproject_2.Panes;
 
-import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.GameScene;
 import com.example.groupproject_2.Scenes.IntroScene;
@@ -10,6 +9,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import static com.example.groupproject_2.Classes.Player.*;
+import static com.example.groupproject_2.Const.*;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -18,6 +18,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -25,8 +28,20 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 
-public class IntroPane extends BorderPane {
+public class IntroPane extends StackPane {
     public IntroPane() {
+        BorderPane borderPane = new BorderPane();
+        ImageView background = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/blue-and-red-heroes-comic-cartoon-background-abstract-pop-art-comic-sunburst-effect-with-halftones-vector-filtered.jpg"))));
+        ImageView hero = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/vecteezy_endearing-video-game-character-for-tshirt-artwork_27294906.png"))));
+        ImageView enemy = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/vecteezy_delightful-character-design-featuring-a-lovable-monster_27294885.png"))));
+        hero.setFitWidth(200);
+        hero.setPreserveRatio(true);
+        hero.setTranslateX(-400);
+        enemy.setTranslateX(400);
+        enemy.setFitWidth(200);
+        enemy.setPreserveRatio(true);
+        background.setFitWidth(SCREEN_WIDTH);
+        background.setFitHeight(SCREEN_HEIGHT);
         StackPane centerPane = new StackPane();
 
         //Buttons
@@ -45,17 +60,18 @@ public class IntroPane extends BorderPane {
         menuBox.setScaleY(2);
         menuBox.setSpacing(50);
 
-        this.setCenter(centerPane);
-        this.setBottom(menuBox);
+        borderPane.setCenter(centerPane);
+        borderPane.setBottom(menuBox);
 
 
 
         // Set up the title text
-        Text title = new Text("Ultimate Clickerama");
-        title.setFont(Const.ImpactBoldRegular);
+        Text title = new Text("ULTIMATE CLICKERAMA");
+        title.setFont(Font.font("Century", FontWeight.BOLD, FontPosture.REGULAR,40));
         title.setFill(Color.DARKBLUE);
         title.setStroke(Color.PALEGOLDENROD);
-        title.setEffect(new DropShadow(10, Color.BLACK));
+        title.setEffect(new DropShadow(10, Color.WHITE));
+        title.setScaleX(0.8f);
         centerPane.getChildren().add(title);
 
         // Add title to the StackPane (centered by default)
@@ -80,28 +96,30 @@ public class IntroPane extends BorderPane {
                 imgView.setPreserveRatio(true);
             }
         }
+        this.getChildren().addAll(background,hero,enemy,borderPane);
 
         // Title animations
-        FadeTransition fadeTransition = new FadeTransition(Duration.millis(1000), title);
+        FadeTransition fadeTransition = new FadeTransition(Duration.millis(2000), title);
         fadeTransition.setFromValue(0.1);
         fadeTransition.setToValue(1);
 
-        TranslateTransition titleTranslate = new TranslateTransition(Duration.millis(1000), title);
+        TranslateTransition titleTranslate = new TranslateTransition(Duration.millis(2000), title);
         titleTranslate.setFromX(-250);
         titleTranslate.setToX(0);
         titleTranslate.setInterpolator(Interpolator.LINEAR);
 
         // Buttons transition
-        FadeTransition buttonFade = new FadeTransition(Duration.millis(1000), menuBox);
+        FadeTransition buttonFade = new FadeTransition(Duration.millis(2000), menuBox);
         buttonFade.setFromValue(0.1);
         buttonFade.setToValue(1);
 
-        TranslateTransition buttonTranslate = new TranslateTransition(Duration.millis(1000), menuBox);
+        TranslateTransition buttonTranslate = new TranslateTransition(Duration.millis(2000), menuBox);
         buttonTranslate.setFromY(1000);
         buttonTranslate.setToY(0);
         buttonTranslate.setInterpolator(Interpolator.LINEAR);
 
         ParallelTransition titleTransition = new ParallelTransition(fadeTransition,titleTranslate,buttonTranslate,buttonFade);
+
         ArrayList<TranslateTransition> swordBouncesIn = new ArrayList<>();
         ArrayList<TranslateTransition> swordBouncesOut = new ArrayList<>();
 
@@ -123,7 +141,7 @@ public class IntroPane extends BorderPane {
         for (int i = 0; i<4; i++){
             swordBouncesIn.get(i+16).setFromX(240);
             swordBouncesIn.get(i+16).setToX(260);
-            swordBouncesIn.get(i+16).setFromY(-70 + i * 46);
+            swordBouncesIn.get(i+16).setFromY(-50 + i * 33);
             swordBouncesIn.get(i+16).getNode().setRotate(-129);
 
             swordBouncesOut.get(i+16).setFromX(260);
@@ -141,7 +159,7 @@ public class IntroPane extends BorderPane {
         for (int i = 0; i<4; i++){
             swordBouncesIn.get(i+36).setFromX(-240);
             swordBouncesIn.get(i+36).setToX(-260);
-            swordBouncesIn.get(i+36).setFromY(70 - i * 46);
+            swordBouncesIn.get(i+36).setFromY(50 - i * 33);
             swordBouncesIn.get(i+36).getNode().setRotate(51);
 
             swordBouncesOut.get(i+36).setFromX(-260);
@@ -167,6 +185,7 @@ public class IntroPane extends BorderPane {
         swordsSequence.setCycleCount(Animation.INDEFINITE);
 
         SequentialTransition start = new SequentialTransition(titleTransition, swordsSequence);
+        start.setDelay(Duration.millis(1000));
         start.play();
 
         // Switch to GameScene on click

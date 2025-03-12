@@ -15,8 +15,8 @@ public class HelloApplication extends Application {
 
         //makes the stage globally accessible, so we can use it in other files
         mainStage = stage;
-        mainStage.setTitle("Hello!");
         mainStage.setScene(new IntroScene());
+        mainStage.setResizable(false);
         mainStage.show();
     }
     public static void main(String[] args) {

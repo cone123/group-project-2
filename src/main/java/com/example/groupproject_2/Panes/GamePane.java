@@ -99,7 +99,7 @@ public class GamePane extends HBox {
         VBox playerBox = new VBox(10);
         ImageView backgroundLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_left.jpg"))));
         backgroundLeft.setFitWidth((double) SCREEN_WIDTH /3);
-        backgroundLeft.setFitHeight(SCREEN_HEIGHT);
+        backgroundLeft.prefHeight(SCREEN_HEIGHT);
 
         moneyLabel.setTranslateY((double) -SCREEN_HEIGHT /2+30);
         StackPane playerStack = new StackPane(backgroundLeft,moneyLabel,clickPowerLabel);
@@ -124,7 +124,7 @@ public class GamePane extends HBox {
         ImageView enemy = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/vecteezy_transparent-background-with-a-chick_23959280.png"))));
         ImageView backgroundRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_right.jpg")))); //https://static.vecteezy.com/system/resources/previews/033/106/191/non_2x/two-cliffs-on-sky-background-vector.jpg
         backgroundRight.setFitWidth((double) SCREEN_WIDTH /3);
-        backgroundRight.setFitHeight(SCREEN_HEIGHT);
+        backgroundRight.prefHeight(SCREEN_HEIGHT);
         backgroundRight.setTranslateX(-1);
 
         enemy.setFitWidth(HIT_BOX_SIZE*2);
