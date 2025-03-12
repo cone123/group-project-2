@@ -1,12 +1,11 @@
 package com.example.groupproject_2.Panes;
 
 import static com.example.groupproject_2.Classes.Player.*;
+import static com.example.groupproject_2.Const.*;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
-import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.GameScene;
-import com.example.groupproject_2.Scenes.IntroScene;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,7 +28,7 @@ public class GamePane extends HBox {
         // Left side (Upgrade Box)
         VBox upgradeBox = new VBox(10);
         upgradeBox.setBackground(Background.fill(Color.GREEN));
-        upgradeBox.setMinWidth((double) Const.SCREEN_WIDTH /3);
+        upgradeBox.setMinWidth((double) SCREEN_WIDTH /3);
         upgradeBox.getChildren().add(new Label(""));
         HBox buttonArea = new HBox(10);
         // upgrade list
@@ -94,7 +93,7 @@ public class GamePane extends HBox {
         // Middle (Player Box)
         VBox playerBox = new VBox(10);
         playerBox.getChildren().add(new Label("Player Section"));
-        playerBox.setMinWidth((double) Const.SCREEN_WIDTH /3);
+        playerBox.setMinWidth((double) SCREEN_WIDTH /3);
         playerBox.setBorder(Border.stroke(Color.BLACK));
 
         playerBox.getChildren().addAll(moneyLabel, clickPowerLabel);
@@ -128,19 +127,19 @@ public class GamePane extends HBox {
 
         // Right (Enemy Box)
         VBox enemyBox = new VBox(10);
-        enemyBox.setMinWidth((double) Const.SCREEN_WIDTH /3);
+        enemyBox.setMinWidth((double) SCREEN_WIDTH /3);
         enemyBox.setBorder(Border.stroke(Color.BLACK));
 
-        Circle circle = new Circle(Const.HIT_BOX_SIZE, Color.rgb(0,0,0,0)); // using circle for temp enemy
+        Circle circle = new Circle(HIT_BOX_SIZE, Color.rgb(0,0,0,0)); // using circle for temp enemy
         ImageView enemy = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/vecteezy_transparent-background-with-a-chick_23959280.png"))));
         ImageView grass = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/grass.png")))); //https://in.pinterest.com/pin/stone-and-grass-platform--13018286414851365/
-        grass.setFitWidth(Const.HIT_BOX_SIZE*2.5);
-        grass.setFitHeight(Const.HIT_BOX_SIZE*2.5);
-        enemy.setFitWidth(Const.HIT_BOX_SIZE*2);
-        enemy.setFitHeight(Const.HIT_BOX_SIZE*2);
+        grass.setFitWidth(HIT_BOX_SIZE*2.5);
+        grass.setFitHeight(HIT_BOX_SIZE*2.5);
+        enemy.setFitWidth(HIT_BOX_SIZE*2);
+        enemy.setFitHeight(HIT_BOX_SIZE*2);
         enemy.setPreserveRatio(true);
         grass.setPreserveRatio(true);
-        grass.setTranslateY(Const.HIT_BOX_SIZE+10);
+        grass.setTranslateY(HIT_BOX_SIZE+10);
 
         StackPane hitBox = new StackPane(grass,enemy,circle);
         hitBox.setTranslateY(200);

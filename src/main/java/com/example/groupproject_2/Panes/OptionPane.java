@@ -1,11 +1,13 @@
 package com.example.groupproject_2.Panes;
 
 import com.example.groupproject_2.HelloApplication;
+import com.example.groupproject_2.Scenes.CreditsScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import static com.example.groupproject_2.Const.*;
 
 
 import static com.example.groupproject_2.Classes.Player.*;
@@ -23,6 +25,7 @@ public class OptionPane extends BorderPane {
         Button soundToggle = new Button("Toggle Sound");
         Button musicToggle = new Button("Toggle Music");
         Button back = new Button("Back");
+        Button credits = new Button("Credits");
         soundToggle.setOnAction(e->{
             //stop/play sounds
         });
@@ -31,6 +34,10 @@ public class OptionPane extends BorderPane {
         });
         back.setOnAction(e->{
             HelloApplication.mainStage.setScene(player.getPreviousScene());
+            //go back to previous screen
+        });
+        credits.setOnAction(e->{
+            HelloApplication.mainStage.setScene(new CreditsScene());
             //go back to previous screen
         });
         this.setCenter(root);
@@ -42,5 +49,6 @@ public class OptionPane extends BorderPane {
         root.add(soundToggle,   0,3,1,1);
         root.add(musicToggle,   0,4,1,1);
         root.add(back,          0,5,1,1);
+        root.add(credits,       0,6,1,1);
     }
 }
