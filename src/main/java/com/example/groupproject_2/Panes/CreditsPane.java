@@ -4,8 +4,6 @@ import static com.example.groupproject_2.Const.*;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.*;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;

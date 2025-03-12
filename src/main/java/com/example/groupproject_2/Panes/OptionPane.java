@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
-import static com.example.groupproject_2.Const.*;
 
 
 import static com.example.groupproject_2.Classes.Player.*;
