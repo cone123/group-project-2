@@ -150,24 +150,36 @@ public class GamePane extends HBox {
         achievement1.setName("you clicked 100 times");
 
         upgradeMenu.setOnAction(e -> {
-            menuBox.getChildren().remove(achievementList);
-            if (!menuBox.getChildren().contains(upgradeList)) {
-                menuBox.getChildren().add(upgradeList);
-            }
+            switchMenu(upgradeMenu);
         });
         achievements.setOnAction(e -> {
-            menuBox.getChildren().remove(upgradeList);
-            if (!menuBox.getChildren().contains(achievementList)) {
-                menuBox.getChildren().add(achievementList);
-            }
+            switchMenu(achievements);
         });
         options.setOnAction(e->{
-            player.setPreviousScene(new GameScene());
-            HelloApplication.mainStage.setScene(new OptionScene());
+            switchMenu(options);
         });
         buttonArea.setBackground(Background.fill(Color.RED));
         menuBox.getChildren().addAll(buttonArea,upgradeList);
         return menuBox;
     }
-
+    private void switchMenu(Button button){
+        switch (button.toString()){
+            case "Upgrade Menu":
+                menuBox.getChildren().remove(achievementList);
+                if (!menuBox.getChildren().contains(upgradeList)) {
+                    menuBox.getChildren().add(upgradeList);
+                }
+                break;
+            case "Achievements":
+                menuBox.getChildren().remove(upgradeList);
+                if (!menuBox.getChildren().contains(achievementList)) {
+                    menuBox.getChildren().add(achievementList);
+                }
+                break;
+            case "Options":
+                player.setPreviousScene(new GameScene());
+                HelloApplication.mainStage.setScene(new OptionScene());
+                break;
+        }
+    }
 }
