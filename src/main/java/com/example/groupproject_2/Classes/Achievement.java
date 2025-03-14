@@ -19,4 +19,9 @@ public class Achievement {
     public void setUnlocked(boolean unlocked) {
         this.unlocked = unlocked;
     }
+
+    @Override
+    public String toString() {
+        return ""+name;
+    }
 }

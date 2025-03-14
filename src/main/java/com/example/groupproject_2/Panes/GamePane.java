@@ -1,7 +1,8 @@
 package com.example.groupproject_2.Panes;
 
-import static com.example.groupproject_2.Classes.Player.*;
 import static com.example.groupproject_2.Const.*;
+
+import com.example.groupproject_2.Classes.Player;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
 import com.example.groupproject_2.HelloApplication;
@@ -23,26 +24,46 @@ import java.util.Objects;
 
 
 public class GamePane extends HBox {
+    private Player player;
+    private ListView<Upgrade> upgradeList;
+    private ListView<Achievement> achievementList;
+    private VBox menuBox;
+
     public GamePane() {
+        this.player = new Player();
         this.setSpacing(0);
         // money and click power text
         Label moneyLabel = new Label(""+player.getMoney());
         moneyLabel.setFont(Font.font("",FontWeight.BOLD, FontPosture.REGULAR,40));
         moneyLabel.setTextFill(Color.GOLD);
         Label clickPowerLabel = new Label("Click Power: " + player.getClickPower());
-        // Left side (Upgrade Box)
-        VBox upgradeBox = new VBox(10);
-        upgradeBox.setBackground(Background.fill(Color.GREEN));
-        upgradeBox.setMinWidth((double) SCREEN_WIDTH /3);
-        upgradeBox.getChildren().add(new Label(""));
+        // Left side
+        this.menuBox = new VBox(10);
+        menuBox.setBackground(Background.fill(Color.YELLOW));
+        menuBox.setMinWidth((double) SCREEN_WIDTH /3);
         HBox buttonArea = new HBox(10);
-        // upgrade list
+        buttonArea.setBackground(Background.fill(Color.BLACK));
+        // buttons
+        Button upgradeMenu = new Button("Upgrade Menu");
+        Button achievements = new Button("Achievements");
+        Button options = new Button("Options");
+        upgradeMenu.setFocusTraversable(false);
+        achievements.setFocusTraversable(false);
+        options.setFocusTraversable(false);
+        upgradeMenu.setPrefWidth(113);
+        achievements.setPrefWidth(113);
+        options.setPrefWidth(113);
+        upgradeMenu.setBackground(Background.fill(Color.LIGHTCORAL));
+        achievements.setBackground(Background.fill(Color.LIGHTCORAL));
+        options.setBackground(Background.fill(Color.LIGHTCORAL));
+        buttonArea.getChildren().addAll(upgradeMenu, achievements, options);
+        // list views
+        upgradeList = new ListView<>();
+        upgradeList.setStyle("-fx-control-inner-background: #FFD700;");
+        upgradeList.setPrefHeight(700);
         Upgrade clickPower = new Upgrade("click power",10,1.15);
         Upgrade autoClickPower = new Upgrade("auto click power",10,1.2);
-        Upgrade goldbonus = new Upgrade("gold bonus",10,1.3);
-        ListView<Upgrade> upgradeList = new ListView<>();
-        upgradeList.getItems().addAll(clickPower,autoClickPower,goldbonus);
-        upgradeList.setVisible(false);
+        upgradeList.getItems().addAll(clickPower,autoClickPower);
         upgradeList.setOnMouseClicked(event -> {
             Upgrade selectedUpgrade = upgradeList.getSelectionModel().getSelectedItem();
             if (selectedUpgrade != null && player.getMoney() >= selectedUpgrade.getCurrentCost()) {
@@ -60,30 +81,25 @@ public class GamePane extends HBox {
                 clickPowerLabel.setText("Click Power: " + player.getClickPower());
             }
         });
-
         // achievements
-        ListView<String>achievementList = new ListView<>();
+        achievementList = new ListView<>();
+        achievementList.setPrefHeight(700);
         Achievement achievement1 = new Achievement();
         achievement1.setName("you clicked 100 times");
-        achievementList.setVisible(false);
 
-        // buttons
-        Button upgradeMenu = new Button("Upgrade Menu");
-        Button achievements = new Button("Achievements");
-        Button options = new Button("Options");
+
         //action event
         upgradeMenu.setOnAction(e -> {
-            if(upgradeList.isVisible()) {
-                upgradeList.setVisible(false);
-            } else if (!upgradeList.isVisible()) {
-                upgradeList.setVisible(true);
+            menuBox.getChildren().remove(achievementList);
+            if (!menuBox.getChildren().contains(upgradeList)) {
+                menuBox.getChildren().add(upgradeList);
             }
         });
+
         achievements.setOnAction(e -> {
-            if(achievementList.isVisible()) {
-                achievementList.setVisible(false);
-            }else if(!achievementList.isVisible()) {
-                achievementList.setVisible(true);
+            menuBox.getChildren().remove(upgradeList);
+            if (!menuBox.getChildren().contains(achievementList)) {
+                menuBox.getChildren().add(achievementList);
             }
         });
         options.setOnAction(e->{
@@ -91,9 +107,8 @@ public class GamePane extends HBox {
             HelloApplication.mainStage.setScene(new OptionScene());
         });
         // addin children
-        buttonArea.getChildren().addAll(upgradeMenu, achievements, options);
         buttonArea.setBackground(Background.fill(Color.RED));
-        upgradeBox.getChildren().addAll(buttonArea,upgradeList,achievementList);
+        menuBox.getChildren().addAll(buttonArea,upgradeList);
 
         // Middle (Player Box)
         VBox playerBox = new VBox(10);
@@ -106,15 +121,6 @@ public class GamePane extends HBox {
 
         playerBox.getChildren().addAll(playerStack);
         playerBox.setMinWidth((double) SCREEN_WIDTH /3);
-
-
-
-
-
-
-
-
-
 
         // Right (Enemy Box)
         VBox enemyBox = new VBox(10);
@@ -142,7 +148,7 @@ public class GamePane extends HBox {
             System.out.println("Total Clicks: " + player.getTotalClicks());
             if(player.getTotalClicks() >= 100 && !achievement1.isUnlocked()){ // achievement
                 achievement1.setUnlocked(true);
-                achievementList.getItems().add(achievement1.getName());
+                achievementList.getItems().add(achievement1);
             }
             // need to update the labels for money
             moneyLabel.setText("" + player.getMoney());
@@ -151,17 +157,16 @@ public class GamePane extends HBox {
         enemyBox.getChildren().addAll(hitBox);
         // Add all VBox containers to the HBox
         // Make each VBox grow to fill available space equally
-        HBox.setHgrow(upgradeBox, Priority.ALWAYS);
+        HBox.setHgrow(menuBox, Priority.ALWAYS);
         HBox.setHgrow(playerBox, Priority.ALWAYS);
         HBox.setHgrow(enemyBox, Priority.ALWAYS);
-        this.getChildren().addAll(upgradeBox, playerBox, enemyBox);
+        this.getChildren().addAll(menuBox, playerBox, enemyBox);
     }
     private void applyUpgradeEffect(Upgrade upgrade) {
         String name = upgrade.getName().toLowerCase();
         switch (name) {
             case "click power" -> player.setClickPower(player.getClickPower() + 1);
             case "auto click power" -> player.setAutoClickRate(player.getAutoClickRate() + 0.5);
-            case "gold bonus" -> player.setGoldMultiplier(player.getGoldMultiplier() + 0.2);
         }
     }
 }
