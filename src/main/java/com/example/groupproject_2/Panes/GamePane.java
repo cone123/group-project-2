@@ -163,7 +163,7 @@ public class GamePane extends HBox {
         return menuBox;
     }
     private void switchMenu(Button button){
-        switch (button.toString()){
+        switch (button.getText()){
             case "Upgrade Menu":
                 menuBox.getChildren().remove(achievementList);
                 if (!menuBox.getChildren().contains(upgradeList)) {
