@@ -1,7 +1,5 @@
 package com.example.groupproject_2.Panes;
-
 import static com.example.groupproject_2.Const.*;
-
 import com.example.groupproject_2.Classes.Player;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
@@ -15,30 +13,95 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
-
 import java.util.Objects;
-
-
 public class GamePane extends HBox {
-    private Player player;
+    private final Player player;
     private ListView<Upgrade> upgradeList;
     private ListView<Achievement> achievementList;
     private VBox menuBox;
-
+    private final VBox enemyBox;
+    private final VBox playerBox;
+    private Achievement achievement1;
+    private Label moneyLabel;
+    private Label clickPowerLabel;
     public GamePane() {
         this.player = new Player();
-        this.setSpacing(0);
-        // money and click power text
-        Label moneyLabel = new Label(""+player.getMoney());
+        // Left side menu
+        menuBox = createMenu();
+        // Middle player
+        playerBox = createPlayerBox();
+        // Right enemy
+        enemyBox = createEnemyBox();
+        // Add all VBox to the HBox
+        // Make each VBox grow to fill available space equally
+        initializeMenu();
+    }
+    private void applyUpgradeEffect(Upgrade upgrade) {
+        String name = upgrade.getName().toLowerCase();
+        switch (name) {
+            case "click power" -> player.setClickPower(player.getClickPower() + 1);
+            case "auto click power" -> player.setAutoClickRate(player.getAutoClickRate() + 0.5);
+        }
+    }
+    private void clickedEnemy(){
+        double money = player.getMoney()+player.getClickPower();
+        player.setMoney(money);
+        player.setTotalClicks(player.getTotalClicks()+1);
+        if(player.getTotalClicks() >= 100 && !achievement1.isUnlocked()){
+            achievement1.setUnlocked(true);
+            achievementList.getItems().add(achievement1);
+        }
+        moneyLabel.setText("" + player.getMoney());
+        clickPowerLabel.setText("Click Power: " + player.getClickPower());
+        System.out.println(money);
+        System.out.println("" + player.getMoney());
+        System.out.println("Total Clicks: " + player.getTotalClicks());
+    }
+    private VBox createEnemyBox(){
+        VBox enemyBox = new VBox(10);
+        enemyBox.setMinWidth((double) SCREEN_WIDTH /3);
+        ImageView backgroundRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_right.jpg")))); //https://static.vecteezy.com/system/resources/previews/033/106/191/non_2x/two-cliffs-on-sky-background-vector.jpg
+        backgroundRight.setFitWidth((double) SCREEN_WIDTH /3);
+        backgroundRight.prefHeight(SCREEN_HEIGHT);
+        backgroundRight.setTranslateX(-1);
+        ImageView enemy = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/vecteezy_transparent-background-with-a-chick_23959280.png"))));
+        enemy.setFitWidth(HIT_BOX_SIZE*2);
+        enemy.setFitHeight(HIT_BOX_SIZE*2);
+        enemy.setPreserveRatio(true);
+        StackPane hitBox = new StackPane(backgroundRight,enemy);
+        hitBox.setPrefSize(200, 200);
+        hitBox.setOnMouseClicked(e -> { // Clicking enemy event
+            clickedEnemy();
+        });
+        enemyBox.getChildren().addAll(hitBox);
+        return enemyBox;
+    }
+    private VBox createPlayerBox(){
+        VBox playerBox = new VBox(10);
+        ImageView backgroundLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_left.jpg"))));
+        backgroundLeft.setFitWidth((double) SCREEN_WIDTH /3);
+        backgroundLeft.prefHeight(SCREEN_HEIGHT);
+        moneyLabel = new Label("$"+ player.getMoney());
         moneyLabel.setFont(Font.font("",FontWeight.BOLD, FontPosture.REGULAR,40));
         moneyLabel.setTextFill(Color.GOLD);
-        Label clickPowerLabel = new Label("Click Power: " + player.getClickPower());
-        // Left side
-        this.menuBox = new VBox(10);
+        moneyLabel.setTranslateY((double) -SCREEN_HEIGHT /2+30);
+        clickPowerLabel = new Label("Click Power: " + player.getClickPower());
+        StackPane playerStack = new StackPane(backgroundLeft,moneyLabel,clickPowerLabel);
+        playerBox.getChildren().addAll(playerStack);
+        playerBox.setMinWidth((double) SCREEN_WIDTH /3);
+        return playerBox;
+    }
+    private void initializeMenu(){
+        HBox.setHgrow(menuBox, Priority.ALWAYS);
+        HBox.setHgrow(playerBox, Priority.ALWAYS);
+        HBox.setHgrow(enemyBox, Priority.ALWAYS);
+        this.getChildren().addAll(menuBox, playerBox, enemyBox);
+    }
+    private VBox createMenu(){
+        menuBox = new VBox(10);
         menuBox.setBackground(Background.fill(Color.YELLOW));
         menuBox.setMinWidth((double) SCREEN_WIDTH /3);
         HBox buttonArea = new HBox(10);
@@ -75,7 +138,6 @@ public class GamePane extends HBox {
                 applyUpgradeEffect(selectedUpgrade);
                 // Refresh the list to show updated cost
                 upgradeList.refresh();
-                System.out.println(player.getClickPower());
                 // need to update the labels for money
                 moneyLabel.setText("" + player.getMoney());
                 clickPowerLabel.setText("Click Power: " + player.getClickPower());
@@ -84,18 +146,15 @@ public class GamePane extends HBox {
         // achievements
         achievementList = new ListView<>();
         achievementList.setPrefHeight(700);
-        Achievement achievement1 = new Achievement();
+        achievement1 = new Achievement();
         achievement1.setName("you clicked 100 times");
 
-
-        //action event
         upgradeMenu.setOnAction(e -> {
             menuBox.getChildren().remove(achievementList);
             if (!menuBox.getChildren().contains(upgradeList)) {
                 menuBox.getChildren().add(upgradeList);
             }
         });
-
         achievements.setOnAction(e -> {
             menuBox.getChildren().remove(upgradeList);
             if (!menuBox.getChildren().contains(achievementList)) {
@@ -106,67 +165,9 @@ public class GamePane extends HBox {
             player.setPreviousScene(new GameScene());
             HelloApplication.mainStage.setScene(new OptionScene());
         });
-        // addin children
         buttonArea.setBackground(Background.fill(Color.RED));
         menuBox.getChildren().addAll(buttonArea,upgradeList);
-
-        // Middle (Player Box)
-        VBox playerBox = new VBox(10);
-        ImageView backgroundLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_left.jpg"))));
-        backgroundLeft.setFitWidth((double) SCREEN_WIDTH /3);
-        backgroundLeft.prefHeight(SCREEN_HEIGHT);
-
-        moneyLabel.setTranslateY((double) -SCREEN_HEIGHT /2+30);
-        StackPane playerStack = new StackPane(backgroundLeft,moneyLabel,clickPowerLabel);
-
-        playerBox.getChildren().addAll(playerStack);
-        playerBox.setMinWidth((double) SCREEN_WIDTH /3);
-
-        // Right (Enemy Box)
-        VBox enemyBox = new VBox(10);
-        enemyBox.setMinWidth((double) SCREEN_WIDTH /3);
-
-        Circle circle = new Circle(HIT_BOX_SIZE, Color.rgb(0,0,0,0)); // using circle for temp enemy
-        ImageView enemy = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/vecteezy_transparent-background-with-a-chick_23959280.png"))));
-        ImageView backgroundRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_right.jpg")))); //https://static.vecteezy.com/system/resources/previews/033/106/191/non_2x/two-cliffs-on-sky-background-vector.jpg
-        backgroundRight.setFitWidth((double) SCREEN_WIDTH /3);
-        backgroundRight.prefHeight(SCREEN_HEIGHT);
-        backgroundRight.setTranslateX(-1);
-
-        enemy.setFitWidth(HIT_BOX_SIZE*2);
-        enemy.setFitHeight(HIT_BOX_SIZE*2);
-        enemy.setPreserveRatio(true);
-
-        StackPane hitBox = new StackPane(backgroundRight,enemy,circle);
-        hitBox.setPrefSize(200, 200);
-        circle.setOnMouseClicked(e -> { // Clicking enemy event
-            double money = player.getMoney()+player.getClickPower();
-            System.out.println(money);
-            player.setMoney(money); // adding money each click
-            System.out.println("" + player.getMoney()); // print to console
-            player.setTotalClicks(player.getTotalClicks()+1); // add total clicks
-            System.out.println("Total Clicks: " + player.getTotalClicks());
-            if(player.getTotalClicks() >= 100 && !achievement1.isUnlocked()){ // achievement
-                achievement1.setUnlocked(true);
-                achievementList.getItems().add(achievement1);
-            }
-            // need to update the labels for money
-            moneyLabel.setText("" + player.getMoney());
-            clickPowerLabel.setText("Click Power: " + player.getClickPower());
-        });
-        enemyBox.getChildren().addAll(hitBox);
-        // Add all VBox containers to the HBox
-        // Make each VBox grow to fill available space equally
-        HBox.setHgrow(menuBox, Priority.ALWAYS);
-        HBox.setHgrow(playerBox, Priority.ALWAYS);
-        HBox.setHgrow(enemyBox, Priority.ALWAYS);
-        this.getChildren().addAll(menuBox, playerBox, enemyBox);
+        return menuBox;
     }
-    private void applyUpgradeEffect(Upgrade upgrade) {
-        String name = upgrade.getName().toLowerCase();
-        switch (name) {
-            case "click power" -> player.setClickPower(player.getClickPower() + 1);
-            case "auto click power" -> player.setAutoClickRate(player.getAutoClickRate() + 0.5);
-        }
-    }
+
 }
