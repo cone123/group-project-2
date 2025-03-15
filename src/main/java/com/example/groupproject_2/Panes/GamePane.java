@@ -6,6 +6,9 @@ import com.example.groupproject_2.Classes.Achievement;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.GameScene;
 import com.example.groupproject_2.Scenes.OptionScene;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -16,6 +19,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
+import javafx.util.Duration;
+
 import java.util.Objects;
 public class GamePane extends HBox {
     private final Player player;
@@ -27,6 +32,7 @@ public class GamePane extends HBox {
     private Achievement achievement1;
     private Label moneyLabel;
     private Label clickPowerLabel;
+    private Duration duration;
     public GamePane() {
         this.player = new Player();
         // Left side menu
@@ -38,6 +44,7 @@ public class GamePane extends HBox {
         // Add all VBox to the HBox
         // Make each VBox grow to fill available space equally
         initializeMenu();
+        autoClicking();
     }
     private void applyUpgradeEffect(Upgrade upgrade) {
         String name = upgrade.getName().toLowerCase();
@@ -45,6 +52,19 @@ public class GamePane extends HBox {
             case "click power" -> player.setClickPower(player.getClickPower() + 1);
             case "auto click power" -> player.setAutoClickRate(player.getAutoClickRate() + 0.5);
         }
+    }
+    private void autoClicking(){
+        Timeline timeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), e->{
+                    double autoClickRate = player.getAutoClickRate();
+                    double newMoney = player.getMoney()+autoClickRate;
+                    player.setMoney(newMoney);
+                    moneyLabel.setText("$" + player.getMoney());
+                    System.out.println("auto clicking money" + autoClickRate);
+                })
+        );
+        timeline.setCycleCount(Animation.INDEFINITE);
+        timeline.play();
     }
     private void clickedEnemy(){
         double money = player.getMoney()+player.getClickPower();
