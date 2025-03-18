@@ -42,7 +42,7 @@ public class CreditsPane extends Pane {
         textList.add(new Text("Olivier Tshikani"));
         textList.add(new Text("Resources Used:"));
         textList.add(new Text("sword.png"));
-        textList.add(new Text("vecteezy_captivating-game-character-artwork-for-your-creative-project_25175159.png"));
+        textList.add(new Text("enemy1.png"));
         textList.add(new Text("vecteezy_cute-devil-monster-character-for-your-creative-design_27294904.png"));
         textList.add(new Text("vecteezy_delightful-character-design-featuring-a-lovable-monster_27294885.png"));
         textList.add(new Text("vecteezy_delightful-game-character-concept-for-your-creative-project_25175167.png"));
@@ -52,7 +52,7 @@ public class CreditsPane extends Pane {
         textList.add(new Text("vecteezy_playful-cartoon-goat-on-a-transparent-canvas-sparking_23546336.png"));
         textList.add(new Text("vecteezy_monkey-in-hiphop-style_23959385.png"));
         textList.add(new Text("vecteezy_playful-game-character-motif-for-your-creative-project_25175164.png"));
-        textList.add(new Text("vecteezy_transparent-background-with-a-chick_23959280.png"));
+        textList.add(new Text("chicken.png"));
         textList.add(new Text("grass.png"));
         textList.add(new Text("Image Credits To:"));
         textList.add(new Text("https://www.vecteezy.com"));

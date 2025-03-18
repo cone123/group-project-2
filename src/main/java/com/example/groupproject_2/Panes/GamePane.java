@@ -1,5 +1,7 @@
 package com.example.groupproject_2.Panes;
 import static com.example.groupproject_2.Const.*;
+
+import com.example.groupproject_2.Classes.Enemy;
 import com.example.groupproject_2.Classes.Player;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
@@ -21,7 +23,8 @@ import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.util.Duration;
 
-import java.util.Objects;
+import java.util.*;
+
 public class GamePane extends HBox {
     private final Player player;
     private ListView<Upgrade> upgradeList;
@@ -32,7 +35,6 @@ public class GamePane extends HBox {
     private Achievement achievement1;
     private Label moneyLabel;
     private Label clickPowerLabel;
-    private Duration duration;
     public GamePane() {
         this.player = new Player();
         // Left side menu
@@ -81,17 +83,22 @@ public class GamePane extends HBox {
         System.out.println("Total Clicks: " + player.getTotalClicks());
     }
     private VBox createEnemyBox(){
+        // background and box
         VBox enemyBox = new VBox(10);
         enemyBox.setMinWidth((double) SCREEN_WIDTH /3);
         ImageView backgroundRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_right.jpg")))); //https://static.vecteezy.com/system/resources/previews/033/106/191/non_2x/two-cliffs-on-sky-background-vector.jpg
         backgroundRight.setFitWidth((double) SCREEN_WIDTH /3);
         backgroundRight.prefHeight(SCREEN_HEIGHT);
         backgroundRight.setTranslateX(-1);
-        ImageView enemy = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/vecteezy_transparent-background-with-a-chick_23959280.png"))));
-        enemy.setFitWidth(HIT_BOX_SIZE*2);
-        enemy.setFitHeight(HIT_BOX_SIZE*2);
-        enemy.setPreserveRatio(true);
-        StackPane hitBox = new StackPane(backgroundRight,enemy);
+        //ImageView enemy = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png"))));
+        // TODO all this can utilize the enemy class and have a current enemy and update everything with methods and stuff
+        //Enemy chicken = new Enemy("chicken",4,"/Images/chicken.png");
+
+        Enemy easyEnemy = this.makeEnemy();
+        easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE*2);
+        easyEnemy.getImageView().setFitHeight(HIT_BOX_SIZE*2);
+        easyEnemy.getImageView().setPreserveRatio(true);
+        StackPane hitBox = new StackPane(backgroundRight,easyEnemy.getImageView());
         hitBox.setPrefSize(200, 200);
         hitBox.setOnMouseClicked(e -> { // Clicking enemy event
             clickedEnemy();
@@ -99,6 +106,23 @@ public class GamePane extends HBox {
         enemyBox.getChildren().addAll(hitBox);
         return enemyBox;
     }
+    private Enemy makeEnemy(){
+        ArrayList<String> names = new ArrayList<>(Arrays.asList("bob","joe","james"));
+        Enemy enemy1 = new Enemy();
+        Random r = new Random();
+        int rand = r.nextInt(names.size());
+        enemy1.setName(names.get(rand));
+        enemy1.setHealth(5);
+
+        ArrayList<Image> enemyPics = new ArrayList<>();
+        enemyPics.add((new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png")))));
+        enemyPics.add((new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/enemy1.png")))));
+        int randomPic = r.nextInt(enemyPics.size());
+        ImageView enemyImage = new ImageView(enemyPics.get(randomPic));
+        enemy1.setImageView(enemyImage);
+        return enemy1;
+    }
+
     private VBox createPlayerBox(){
         VBox playerBox = new VBox(10);
         ImageView backgroundLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_left.jpg"))));
