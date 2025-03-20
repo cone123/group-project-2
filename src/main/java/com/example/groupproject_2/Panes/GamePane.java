@@ -1,8 +1,7 @@
 package com.example.groupproject_2.Panes;
 import static com.example.groupproject_2.Const.*;
-
+import static com.example.groupproject_2.Classes.Player.*;
 import com.example.groupproject_2.Classes.Enemy;
-import com.example.groupproject_2.Classes.Player;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
 import com.example.groupproject_2.HelloApplication;
@@ -26,7 +25,6 @@ import javafx.util.Duration;
 import java.util.*;
 
 public class GamePane extends HBox {
-    private final Player player;
     private ListView<Upgrade> upgradeList;
     private ListView<Achievement> achievementList;
     private VBox menuBox;
@@ -36,7 +34,6 @@ public class GamePane extends HBox {
     private Label moneyLabel;
     private Label clickPowerLabel;
     public GamePane() {
-        this.player = new Player();
         // Left side menu
         menuBox = createMenu();
         // Middle player
@@ -222,6 +219,7 @@ public class GamePane extends HBox {
                 break;
             case "Options":
                 player.setPreviousScene(new GameScene());
+                System.out.println("set prev scene game");
                 HelloApplication.mainStage.setScene(new OptionScene());
                 break;
         }
