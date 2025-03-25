@@ -73,10 +73,10 @@ public class GamePane extends HBox {
             achievement1.setUnlocked(true);
             achievementList.getItems().add(achievement1);
         }
-        moneyLabel.setText("" + player.getMoney());
+        moneyLabel.setText("$" + player.getMoney());
         clickPowerLabel.setText("Click Power: " + player.getClickPower());
         System.out.println(money);
-        System.out.println("" + player.getMoney());
+        System.out.println("$" + player.getMoney());
         System.out.println("Total Clicks: " + player.getTotalClicks());
     }
     private VBox createEnemyBox(){
@@ -131,6 +131,7 @@ public class GamePane extends HBox {
         moneyLabel.setTranslateY((double) -SCREEN_HEIGHT /2+30);
         clickPowerLabel = new Label("Click Power: " + player.getClickPower());
         StackPane playerStack = new StackPane(backgroundLeft,moneyLabel,clickPowerLabel);
+        clickPowerLabel.setTranslateY(-200);
         playerBox.getChildren().addAll(playerStack);
         playerBox.setMinWidth((double) SCREEN_WIDTH /3);
         return playerBox;
