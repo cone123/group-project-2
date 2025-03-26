@@ -35,6 +35,7 @@ public class GamePane extends HBox {
     private Label clickPowerLabel;
     private Enemy easyEnemy = this.makeEnemy(); // initialize an enemy
     private Label enemyHealth = new Label();
+    private StackPane hitBox = new StackPane();
     public GamePane() {
         // Left side menu
         menuBox = createMenu();
@@ -76,13 +77,27 @@ public class GamePane extends HBox {
         }
         enemyHealth.setText(easyEnemy.healthToString());
     }
-    private void enemyKilled(){
+    private void enemyKilled() {
+        // Create a new enemy
         easyEnemy = makeEnemy();
+        // Update the existing hitBox with new enemy details
+        hitBox.getChildren().clear();
+        ImageView backgroundRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_right.jpg"))));
+        backgroundRight.setFitWidth((double) SCREEN_WIDTH /3);
+        backgroundRight.prefHeight(SCREEN_HEIGHT);
+        backgroundRight.setTranslateX(-1);
+        // Reset enemy health label
         enemyHealth.setText(easyEnemy.healthToString());
-        easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE * 2);
-        easyEnemy.getImageView().setFitHeight(HIT_BOX_SIZE * 2);
-
-        System.out.println("killed enemy");
+        // Name
+        Label enemyNameLabel = new Label(easyEnemy.getName());
+        enemyNameLabel.setFont(Font.font(20));
+        enemyNameLabel.setTranslateY(-HIT_BOX_SIZE-40);
+        // Set up new enemy image
+        easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE*2);
+        easyEnemy.getImageView().setFitHeight(HIT_BOX_SIZE*2);
+        easyEnemy.getImageView().setPreserveRatio(true);
+        // Rebuild hitBox with new enemy
+        hitBox.getChildren().addAll(backgroundRight, easyEnemy.getImageView(), enemyHealth,enemyNameLabel);
     }
     private void clickedEnemy(){
         enemyHit();
@@ -113,11 +128,14 @@ public class GamePane extends HBox {
         enemyHealth.setText(easyEnemy.healthToString());
         enemyHealth.setTranslateY(-HIT_BOX_SIZE -10);
         // name
+        Label enemyNameLabel = new Label(easyEnemy.getName());
+        enemyNameLabel.setFont(Font.font(20));
+        enemyNameLabel.setTranslateY(-HIT_BOX_SIZE-40);
 
         easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE*2);
         easyEnemy.getImageView().setFitHeight(HIT_BOX_SIZE*2);
         easyEnemy.getImageView().setPreserveRatio(true);
-        StackPane hitBox = new StackPane(backgroundRight,easyEnemy.getImageView(),enemyHealth);
+        hitBox.getChildren().addAll(backgroundRight,easyEnemy.getImageView(),enemyHealth,enemyNameLabel);
         hitBox.setPrefSize(200, 200);
         hitBox.setOnMouseClicked(e -> { // Clicking enemy event
             clickedEnemy();
@@ -126,7 +144,7 @@ public class GamePane extends HBox {
         return enemyBox;
     }
     private Enemy makeEnemy(){
-        ArrayList<String> names = new ArrayList<>(Arrays.asList("bob","joe","james"));
+        ArrayList<String> names = new ArrayList<>(Arrays.asList("bob","joe","james","michael","evan","pepperoni","pizza","car","a chicken","evil chicken","not a chicken"));
         Enemy enemy1 = new Enemy();
         Random r = new Random();
         int rand = r.nextInt(names.size());
@@ -140,7 +158,6 @@ public class GamePane extends HBox {
         enemy1.setImageView(enemyImage);
         return enemy1;
     }
-
     private VBox createPlayerBox(){
         VBox playerBox = new VBox(10);
         ImageView backgroundLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_left.jpg"))));
