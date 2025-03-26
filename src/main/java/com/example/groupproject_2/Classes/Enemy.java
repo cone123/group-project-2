@@ -48,4 +48,15 @@ public class Enemy {
         this.imageView = imageView;
     }
 
+    @Override
+    public String toString() {
+        return "Enemy{" +
+                "name='" + name + '\'' +
+                ", health=" + health +
+                ", imageView=" + imageView +
+                '}';
+    }
+    public String healthToString() {
+        return "Health: " + health;
+    }
 }
