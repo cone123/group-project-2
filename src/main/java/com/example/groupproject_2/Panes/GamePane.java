@@ -35,8 +35,11 @@ public class GamePane extends HBox {
     private Achievement achievement1;
     private Label moneyLabel;
     private Label clickPowerLabel;
+    private Enemy easyEnemy = this.makeEnemy(); // initialize an enemy
+    private Label enemyHealth = new Label();
     public GamePane() {
         this.player = new Player();
+
         // Left side menu
         menuBox = createMenu();
         // Middle player
@@ -68,7 +71,25 @@ public class GamePane extends HBox {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+    private void enemyHit(){
+        double health = easyEnemy.getHealth();
+        if (health > 0){
+            easyEnemy.setHealth(health-1);
+        } else if (health <= 0) {
+            enemyKilled();
+        }
+        enemyHealth.setText(easyEnemy.healthToString());
+    }
+    private void enemyKilled(){
+        easyEnemy = makeEnemy();
+        enemyHealth.setText(easyEnemy.healthToString());
+        easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE * 2);
+        easyEnemy.getImageView().setFitHeight(HIT_BOX_SIZE * 2);
+
+        System.out.println("killed enemy");
+    }
     private void clickedEnemy(){
+        enemyHit();
         double money = player.getMoney()+player.getClickPower();
         player.setMoney(money);
         player.setTotalClicks(player.getTotalClicks()+1);
@@ -90,15 +111,17 @@ public class GamePane extends HBox {
         backgroundRight.setFitWidth((double) SCREEN_WIDTH /3);
         backgroundRight.prefHeight(SCREEN_HEIGHT);
         backgroundRight.setTranslateX(-1);
-        //ImageView enemy = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png"))));
-        // TODO all this can utilize the enemy class and have a current enemy and update everything with methods and stuff
-        //Enemy chicken = new Enemy("chicken",4,"/Images/chicken.png");
+        // health
+        enemyHealth.setFont(Font.font("Arial",FontWeight.BOLD,20));
+        enemyHealth.setTextFill(Color.RED);
+        enemyHealth.setText(easyEnemy.healthToString());
+        enemyHealth.setTranslateY(-HIT_BOX_SIZE -10);
+        // name
 
-        Enemy easyEnemy = this.makeEnemy();
         easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE*2);
         easyEnemy.getImageView().setFitHeight(HIT_BOX_SIZE*2);
         easyEnemy.getImageView().setPreserveRatio(true);
-        StackPane hitBox = new StackPane(backgroundRight,easyEnemy.getImageView());
+        StackPane hitBox = new StackPane(backgroundRight,easyEnemy.getImageView(),enemyHealth);
         hitBox.setPrefSize(200, 200);
         hitBox.setOnMouseClicked(e -> { // Clicking enemy event
             clickedEnemy();
@@ -112,8 +135,7 @@ public class GamePane extends HBox {
         Random r = new Random();
         int rand = r.nextInt(names.size());
         enemy1.setName(names.get(rand));
-        enemy1.setHealth(5);
-
+        enemy1.setHealth(r.nextInt(4,8));
         ArrayList<Image> enemyPics = new ArrayList<>();
         enemyPics.add((new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png")))));
         enemyPics.add((new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/enemy1.png")))));
