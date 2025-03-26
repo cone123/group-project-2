@@ -1,8 +1,7 @@
 package com.example.groupproject_2.Panes;
 import static com.example.groupproject_2.Const.*;
-
+import static com.example.groupproject_2.Classes.Player.*;
 import com.example.groupproject_2.Classes.Enemy;
-import com.example.groupproject_2.Classes.Player;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
 import com.example.groupproject_2.HelloApplication;
@@ -26,7 +25,6 @@ import javafx.util.Duration;
 import java.util.*;
 
 public class GamePane extends HBox {
-    private final Player player;
     private ListView<Upgrade> upgradeList;
     private ListView<Achievement> achievementList;
     private VBox menuBox;
@@ -38,8 +36,6 @@ public class GamePane extends HBox {
     private Enemy easyEnemy = this.makeEnemy(); // initialize an enemy
     private Label enemyHealth = new Label();
     public GamePane() {
-        this.player = new Player();
-
         // Left side menu
         menuBox = createMenu();
         // Middle player
@@ -97,10 +93,10 @@ public class GamePane extends HBox {
             achievement1.setUnlocked(true);
             achievementList.getItems().add(achievement1);
         }
-        moneyLabel.setText("" + player.getMoney());
+        moneyLabel.setText("$" + player.getMoney());
         clickPowerLabel.setText("Click Power: " + player.getClickPower());
         System.out.println(money);
-        System.out.println("" + player.getMoney());
+        System.out.println("$" + player.getMoney());
         System.out.println("Total Clicks: " + player.getTotalClicks());
     }
     private VBox createEnemyBox(){
@@ -156,6 +152,7 @@ public class GamePane extends HBox {
         moneyLabel.setTranslateY((double) -SCREEN_HEIGHT /2+30);
         clickPowerLabel = new Label("Click Power: " + player.getClickPower());
         StackPane playerStack = new StackPane(backgroundLeft,moneyLabel,clickPowerLabel);
+        clickPowerLabel.setTranslateY(-200);
         playerBox.getChildren().addAll(playerStack);
         playerBox.setMinWidth((double) SCREEN_WIDTH /3);
         return playerBox;
@@ -244,6 +241,7 @@ public class GamePane extends HBox {
                 break;
             case "Options":
                 player.setPreviousScene(new GameScene());
+                System.out.println("set prev scene game");
                 HelloApplication.mainStage.setScene(new OptionScene());
                 break;
         }

@@ -2,6 +2,7 @@ package com.example.groupproject_2.Panes;
 
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.CreditsScene;
+import com.example.groupproject_2.Scenes.GameScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
@@ -16,7 +17,6 @@ public class OptionPane extends BorderPane {
         GridPane root = new GridPane();
         Label stats = new Label("Stats");
         Label currentCoins = new Label("Current Coins");
-        player.setMoney(5);
         Text coins = new Text(""+player.getMoney());
         Label playTime = new Label("Total Play Time");
         double timePlayed = System.currentTimeMillis()- player.getStartTime().getTime();
@@ -32,6 +32,9 @@ public class OptionPane extends BorderPane {
             //stop/play music
         });
         back.setOnAction(e->{
+            if (player.getPreviousScene() == new GameScene()){
+
+            }
             HelloApplication.mainStage.setScene(player.getPreviousScene());
             //go back to previous screen
         });
