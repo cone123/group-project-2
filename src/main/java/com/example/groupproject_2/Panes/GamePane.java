@@ -47,6 +47,9 @@ public class GamePane extends HBox {
         initializeMenu();
         autoClicking();
     }
+    /*
+    * this makes things faster
+    * */
     private void loadEnemyImages(){
         enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png"))));
         enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/enemy1.png"))));
@@ -79,6 +82,7 @@ public class GamePane extends HBox {
                     double health = easyEnemy.getHealth();
                     if (health > 0){
                         easyEnemy.setHealth(health-player.getAutoClickRate());
+                        enemyHealth.setText(easyEnemy.healthToString());
                     } else if (health <= 1) {
                         enemyKilled();
                     }
