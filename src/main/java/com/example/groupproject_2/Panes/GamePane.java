@@ -48,6 +48,10 @@ public class GamePane extends HBox {
         initializeMenu();
         autoClicking();
     }
+    /*
+    * gets the upgrade name then switch statements the name
+    * then plus one to the upgrade
+    * */
     private void applyUpgradeEffect(Upgrade upgrade) {
         String name = upgrade.getName().toLowerCase();
         switch (name) {
@@ -55,9 +59,15 @@ public class GamePane extends HBox {
             case "auto click power" -> player.setAutoClickRate(player.getAutoClickRate() + 0.5);
         }
     }
+    /*
+    * method for the autoclicking upgrade
+    * every second you get money
+    * also hits enemy now
+    * */
     private void autoClicking(){
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e->{
+                    enemyHit();
                     double autoClickRate = player.getAutoClickRate();
                     double newMoney = player.getMoney()+autoClickRate;
                     player.setMoney(newMoney);
@@ -68,37 +78,42 @@ public class GamePane extends HBox {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+    /*
+    * if the health is more than 0 take damage else enemyKilled triggers
+    * */
     private void enemyHit(){
         double health = easyEnemy.getHealth();
         if (health > 0){
             easyEnemy.setHealth(health-1);
-        } else if (health <= 0) {
+        } else if (health <= 1) {
             enemyKilled();
         }
         enemyHealth.setText(easyEnemy.healthToString());
     }
+    /*
+    * basically this just makes a new enemy with class attributes
+    * and then sets all the images and visual stuff
+    * */
     private void enemyKilled() {
-        // Create a new enemy
         easyEnemy = makeEnemy();
-        // Update the existing hitBox with new enemy details
         hitBox.getChildren().clear();
         ImageView backgroundRight = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_right.jpg"))));
         backgroundRight.setFitWidth((double) SCREEN_WIDTH /3);
         backgroundRight.prefHeight(SCREEN_HEIGHT);
         backgroundRight.setTranslateX(-1);
-        // Reset enemy health label
         enemyHealth.setText(easyEnemy.healthToString());
-        // Name
         Label enemyNameLabel = new Label(easyEnemy.getName());
         enemyNameLabel.setFont(Font.font(20));
         enemyNameLabel.setTranslateY(-HIT_BOX_SIZE-40);
-        // Set up new enemy image
         easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE*2);
         easyEnemy.getImageView().setFitHeight(HIT_BOX_SIZE*2);
         easyEnemy.getImageView().setPreserveRatio(true);
-        // Rebuild hitBox with new enemy
         hitBox.getChildren().addAll(backgroundRight, easyEnemy.getImageView(), enemyHealth,enemyNameLabel);
     }
+    /*
+    * enemy hit and clickedEnemy are intentionally separate
+    * because this is more organized ?
+    * */
     private void clickedEnemy(){
         enemyHit();
         double money = player.getMoney()+player.getClickPower();
@@ -114,6 +129,10 @@ public class GamePane extends HBox {
         System.out.println("$" + player.getMoney());
         System.out.println("Total Clicks: " + player.getTotalClicks());
     }
+    /*
+    * makes the enemy box initially some of the stuff
+    * gets updated when enemyKilled is triggered
+    * */
     private VBox createEnemyBox(){
         // background and box
         VBox enemyBox = new VBox(10);
@@ -143,6 +162,9 @@ public class GamePane extends HBox {
         enemyBox.getChildren().addAll(hitBox);
         return enemyBox;
     }
+    /*
+    * this is for randomly generating enemies
+    * */
     private Enemy makeEnemy(){
         ArrayList<String> names = new ArrayList<>(Arrays.asList("bob","joe","james","michael","evan","pepperoni","pizza","car","a chicken","evil chicken","not a chicken"));
         Enemy enemy1 = new Enemy();
@@ -158,6 +180,9 @@ public class GamePane extends HBox {
         enemy1.setImageView(enemyImage);
         return enemy1;
     }
+    /*
+    * makes the player box
+    * */
     private VBox createPlayerBox(){
         VBox playerBox = new VBox(10);
         ImageView backgroundLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_left.jpg"))));
@@ -174,12 +199,18 @@ public class GamePane extends HBox {
         playerBox.setMinWidth((double) SCREEN_WIDTH /3);
         return playerBox;
     }
+    /*
+    * the glue
+    * */
     private void initializeMenu(){
         HBox.setHgrow(menuBox, Priority.ALWAYS);
         HBox.setHgrow(playerBox, Priority.ALWAYS);
         HBox.setHgrow(enemyBox, Priority.ALWAYS);
         this.getChildren().addAll(menuBox, playerBox, enemyBox);
     }
+    /*
+    * make menu box for upgrades etc
+    * */
     private VBox createMenu(){
         menuBox = new VBox(10);
         menuBox.setBackground(Background.fill(Color.YELLOW));
@@ -242,6 +273,9 @@ public class GamePane extends HBox {
         menuBox.getChildren().addAll(buttonArea,upgradeList);
         return menuBox;
     }
+    /*
+    * my holy grail switch statement
+    * */
     private void switchMenu(Button button){
         switch (button.getText()){
             case "Upgrade Menu":
