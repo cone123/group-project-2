@@ -33,20 +33,23 @@ public class GamePane extends HBox {
     private Achievement achievement1;
     private Label moneyLabel;
     private Label clickPowerLabel;
-    private Enemy easyEnemy = this.makeEnemy(); // initialize an enemy
+    private final List<Image> enemyPics = new ArrayList<>(); // init ts pic b4 that
+    private Enemy easyEnemy; // initialize an enemy not here
     private Label enemyHealth = new Label();
     private StackPane hitBox = new StackPane();
+
     public GamePane() {
-        // Left side menu
+        loadEnemyImages();
+        easyEnemy = makeEnemy();
         menuBox = createMenu();
-        // Middle player
         playerBox = createPlayerBox();
-        // Right enemy
         enemyBox = createEnemyBox();
-        // Add all VBox to the HBox
-        // Make each VBox grow to fill available space equally
         initializeMenu();
         autoClicking();
+    }
+    private void loadEnemyImages(){
+        enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png"))));
+        enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/enemy1.png"))));
     }
     /*
     * gets the upgrade name then switch statements the name
@@ -67,12 +70,18 @@ public class GamePane extends HBox {
     private void autoClicking(){
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e->{
-                    enemyHit();
                     double autoClickRate = player.getAutoClickRate();
                     double newMoney = player.getMoney()+autoClickRate;
                     player.setMoney(newMoney);
                     moneyLabel.setText("$" + player.getMoney());
                     System.out.println("auto clicking money" + autoClickRate);
+                    // temp
+                    double health = easyEnemy.getHealth();
+                    if (health > 0){
+                        easyEnemy.setHealth(health-player.getAutoClickRate());
+                    } else if (health <= 1) {
+                        enemyKilled();
+                    }
                 })
         );
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -80,11 +89,15 @@ public class GamePane extends HBox {
     }
     /*
     * if the health is more than 0 take damage else enemyKilled triggers
+    * or if the damage done goes negative kill the enemy
     * */
     private void enemyHit(){
         double health = easyEnemy.getHealth();
         if (health > 0){
-            easyEnemy.setHealth(health-1);
+            if(easyEnemy.getHealth()-player.getClickPower() < 0){
+                enemyKilled();
+            }
+            easyEnemy.setHealth(health-player.getClickPower());
         } else if (health <= 1) {
             enemyKilled();
         }
@@ -172,12 +185,9 @@ public class GamePane extends HBox {
         int rand = r.nextInt(names.size());
         enemy1.setName(names.get(rand));
         enemy1.setHealth(r.nextInt(4,8));
-        ArrayList<Image> enemyPics = new ArrayList<>();
-        enemyPics.add((new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png")))));
-        enemyPics.add((new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/enemy1.png")))));
+
         int randomPic = r.nextInt(enemyPics.size());
-        ImageView enemyImage = new ImageView(enemyPics.get(randomPic));
-        enemy1.setImageView(enemyImage);
+        enemy1.setImageView(new ImageView(enemyPics.get(randomPic)));
         return enemy1;
     }
     /*
