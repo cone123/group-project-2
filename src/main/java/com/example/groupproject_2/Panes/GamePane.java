@@ -2,6 +2,7 @@ package com.example.groupproject_2.Panes;
 import static com.example.groupproject_2.Const.*;
 import static com.example.groupproject_2.Classes.Player.*;
 import com.example.groupproject_2.Classes.Enemy;
+import com.example.groupproject_2.Classes.SoundManager;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
 import com.example.groupproject_2.HelloApplication;
@@ -48,16 +49,16 @@ public class GamePane extends HBox {
         autoClicking();
     }
     /*
-    * this makes things faster
-    * */
+     * this makes things faster
+     * */
     private void loadEnemyImages(){
         enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png"))));
         enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/enemy1.png"))));
     }
     /*
-    * gets the upgrade name then switch statements the name
-    * then plus one to the upgrade
-    * */
+     * gets the upgrade name then switch statements the name
+     * then plus one to the upgrade
+     * */
     private void applyUpgradeEffect(Upgrade upgrade) {
         String name = upgrade.getName().toLowerCase();
         switch (name) {
@@ -66,10 +67,10 @@ public class GamePane extends HBox {
         }
     }
     /*
-    * method for the autoclicking upgrade
-    * every second you get money
-    * also hits enemy now
-    * */
+     * method for the autoclicking upgrade
+     * every second you get money
+     * also hits enemy now
+     * */
     private void autoClicking(){
         Timeline timeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), e->{
@@ -92,9 +93,9 @@ public class GamePane extends HBox {
         timeline.play();
     }
     /*
-    * if the health is more than 0 take damage else enemyKilled triggers
-    * or if the damage done goes negative kill the enemy
-    * */
+     * if the health is more than 0 take damage else enemyKilled triggers
+     * or if the damage done goes negative kill the enemy
+     * */
     private void enemyHit(){
         double health = easyEnemy.getHealth();
         if (health > 0){
@@ -108,9 +109,9 @@ public class GamePane extends HBox {
         enemyHealth.setText(easyEnemy.healthToString());
     }
     /*
-    * basically this just makes a new enemy with class attributes
-    * and then sets all the images and visual stuff
-    * */
+     * basically this just makes a new enemy with class attributes
+     * and then sets all the images and visual stuff
+     * */
     private void enemyKilled() {
         easyEnemy = makeEnemy();
         hitBox.getChildren().clear();
@@ -128,10 +129,11 @@ public class GamePane extends HBox {
         hitBox.getChildren().addAll(backgroundRight, easyEnemy.getImageView(), enemyHealth,enemyNameLabel);
     }
     /*
-    * enemy hit and clickedEnemy are intentionally separate
-    * because this is more organized ?
-    * */
+     * enemy hit and clickedEnemy are intentionally separate
+     * because this is more organized ?
+     * */
     private void clickedEnemy(){
+        SoundManager.playClickSound(); // Calling soundManager class to play click when enemy is hit
         enemyHit();
         double money = player.getMoney()+player.getClickPower();
         player.setMoney(money);
@@ -147,9 +149,9 @@ public class GamePane extends HBox {
         System.out.println("Total Clicks: " + player.getTotalClicks());
     }
     /*
-    * makes the enemy box initially some of the stuff
-    * gets updated when enemyKilled is triggered
-    * */
+     * makes the enemy box initially some of the stuff
+     * gets updated when enemyKilled is triggered
+     * */
     private VBox createEnemyBox(){
         // background and box
         VBox enemyBox = new VBox(10);
@@ -180,10 +182,10 @@ public class GamePane extends HBox {
         return enemyBox;
     }
     /*
-    * this is for randomly generating enemies
-    * */
+     * this is for randomly generating enemies
+     * */
     private Enemy makeEnemy(){
-        ArrayList<String> names = new ArrayList<>(Arrays.asList("bob","joe","james","michael","evan","pepperoni","pizza","car","a chicken","evil chicken","not a chicken"));
+        ArrayList<String> names = new ArrayList<>(Arrays.asList("bob","OT","Joker","Brian","evan","pepperoni","pizza","Vaas","a chicken","evil chicken","not a chicken"));
         Enemy enemy1 = new Enemy();
         Random r = new Random();
         int rand = r.nextInt(names.size());
@@ -195,9 +197,15 @@ public class GamePane extends HBox {
         return enemy1;
     }
     /*
-    * makes the player box
-    * */
+     * makes the player box
+     * */
     private VBox createPlayerBox(){
+        ImageView playerImageView = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/vecteezy_imaginative-and-lovable-game-character-for-tshirt-graphic_27294895.png"))));
+        playerImageView.setFitWidth(HIT_BOX_SIZE * 2);
+        playerImageView.setFitHeight(HIT_BOX_SIZE * 2);
+        playerImageView.setPreserveRatio(true);
+        playerImageView.setTranslateY(50);
+        playerImageView.setScaleX(-1); // Flips it to face the enemy
         VBox playerBox = new VBox(10);
         ImageView backgroundLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_left.jpg"))));
         backgroundLeft.setFitWidth((double) SCREEN_WIDTH /3);
@@ -207,15 +215,15 @@ public class GamePane extends HBox {
         moneyLabel.setTextFill(Color.GOLD);
         moneyLabel.setTranslateY((double) -SCREEN_HEIGHT /2+30);
         clickPowerLabel = new Label("Click Power: " + player.getClickPower());
-        StackPane playerStack = new StackPane(backgroundLeft,moneyLabel,clickPowerLabel);
+        StackPane playerStack = new StackPane(backgroundLeft, playerImageView, moneyLabel, clickPowerLabel);
         clickPowerLabel.setTranslateY(-200);
         playerBox.getChildren().addAll(playerStack);
         playerBox.setMinWidth((double) SCREEN_WIDTH /3);
         return playerBox;
     }
     /*
-    * the glue
-    * */
+     * the glue
+     * */
     private void initializeMenu(){
         HBox.setHgrow(menuBox, Priority.ALWAYS);
         HBox.setHgrow(playerBox, Priority.ALWAYS);
@@ -223,8 +231,8 @@ public class GamePane extends HBox {
         this.getChildren().addAll(menuBox, playerBox, enemyBox);
     }
     /*
-    * make menu box for upgrades etc
-    * */
+     * make menu box for upgrades etc
+     * */
     private VBox createMenu(){
         menuBox = new VBox(10);
         menuBox.setBackground(Background.fill(Color.YELLOW));
@@ -288,8 +296,8 @@ public class GamePane extends HBox {
         return menuBox;
     }
     /*
-    * my holy grail switch statement
-    * */
+     * my holy grail switch statement
+     * */
     private void switchMenu(Button button){
         switch (button.getText()){
             case "Upgrade Menu":
