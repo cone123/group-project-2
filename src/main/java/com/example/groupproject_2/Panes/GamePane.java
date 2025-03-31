@@ -54,6 +54,9 @@ public class GamePane extends HBox {
     private void loadEnemyImages(){
         enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/chicken.png"))));
         enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/enemy1.png"))));
+        enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/goat.png"))));
+        enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/monkey.png"))));
+        enemyPics.add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/ginbey.png"))));
     }
     /*
      * gets the upgrade name then switch statements the name

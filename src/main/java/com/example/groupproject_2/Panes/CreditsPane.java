@@ -45,12 +45,12 @@ public class CreditsPane extends Pane {
         textList.add(new Text("enemy1.png"));
         textList.add(new Text("vecteezy_cute-devil-monster-character-for-your-creative-design_27294904.png"));
         textList.add(new Text("vecteezy_delightful-character-design-featuring-a-lovable-monster_27294885.png"));
-        textList.add(new Text("vecteezy_delightful-game-character-concept-for-your-creative-project_25175167.png"));
+        textList.add(new Text("ginbey.png"));
         textList.add(new Text("vecteezy_endearing-video-game-character-for-tshirt-artwork_27294906.png"));
         textList.add(new Text("vecteezy_enhance-your-designs-with-a-transparent-cartoon-cow_23546332.png"));
         textList.add(new Text("vecteezy_imaginative-and-lovable-game-character-for-tshirt-graphic_27294895.png"));
-        textList.add(new Text("vecteezy_playful-cartoon-goat-on-a-transparent-canvas-sparking_23546336.png"));
-        textList.add(new Text("vecteezy_monkey-in-hiphop-style_23959385.png"));
+        textList.add(new Text("goat.png"));
+        textList.add(new Text("monkey.png"));
         textList.add(new Text("vecteezy_playful-game-character-motif-for-your-creative-project_25175164.png"));
         textList.add(new Text("chicken.png"));
         textList.add(new Text("grass.png"));
