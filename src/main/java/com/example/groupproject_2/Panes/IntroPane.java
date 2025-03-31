@@ -1,5 +1,6 @@
 package com.example.groupproject_2.Panes;
 
+import com.example.groupproject_2.Classes.MusicManager;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.GameScene;
 import com.example.groupproject_2.Scenes.IntroScene;
@@ -17,18 +18,26 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.control.Slider;
+
+
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class IntroPane extends StackPane {
+
+
     public IntroPane() {
         BorderPane borderPane = new BorderPane();
         ImageView background = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/blue-and-red-heroes-comic-cartoon-background-abstract-pop-art-comic-sunburst-effect-with-halftones-vector-filtered.jpg"))));
@@ -190,17 +199,68 @@ public class IntroPane extends StackPane {
 
         // Switch to GameScene on click
         newGame.setOnMouseClicked(e -> {
+            MusicManager.stopMusic();
             player.setPreviousScene(new IntroScene());
             HelloApplication.mainStage.setScene(new GameScene());
         });
-        loadGame.setOnMouseClicked(e->{
+
+        loadGame.setOnMouseClicked(e -> {
+            MusicManager.stopMusic();
             player.setPreviousScene(new IntroScene());
             HelloApplication.mainStage.setScene(new GameScene());
-            //do other stuff like load a file and pass data to game screen
         });
+
         options.setOnMouseClicked(e -> {
+            MusicManager.stopMusic();
             player.setPreviousScene(new IntroScene());
             HelloApplication.mainStage.setScene(new OptionScene());
         });
+
+
+        // Music playback
+        MusicManager.playMusic("/Audio/introMusic.mp3", 0.6, true);
+
+        // Mute/Unmute Button
+        Button muteButton = new Button("Mute");
+        muteButton.setOnAction(e -> {
+            MusicManager.toggleMute();
+            muteButton.setText(MusicManager.isMuted() ? "🔇" : "🔊");
+        });
+
+        // Adding a volume Slider
+        Slider volumeSlider = new Slider(0, 1, 0.6);
+        volumeSlider.setPrefWidth(20);
+        volumeSlider.setShowTickLabels(false);
+        volumeSlider.setShowTickMarks(false);
+        volumeSlider.setBlockIncrement(0.1);
+        volumeSlider.setVisible(false);
+        volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> MusicManager.setVolume(newVal.doubleValue()));
+
+
+        // Volume Toggle Button
+        Button volumeButton = new Button("🔊");
+        volumeButton.setOnAction(e -> volumeSlider.setVisible(!volumeSlider.isVisible()));
+
+
+        // Bind slider to mediaPlayer volume
+        volumeSlider.valueProperty().addListener((obs, oldVal, newVal) -> {
+            MusicManager.setVolume(newVal.doubleValue());
+        });
+
+        // Layout for controls
+        HBox volumeControls = new HBox(5, muteButton, volumeButton, volumeSlider);
+        volumeControls.setAlignment(Pos.TOP_RIGHT);
+        volumeControls.setPickOnBounds(false);
+
+        this.getChildren().add(volumeControls);
+        StackPane.setAlignment(volumeControls, Pos.TOP_RIGHT);
+        volumeControls.setTranslateX(-10);
+        volumeControls.setTranslateY(10);
+
+
+
+
+
+
     }
 }
