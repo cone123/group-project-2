@@ -36,8 +36,8 @@ public class GamePane extends HBox {
     private Label clickPowerLabel;
     private final List<Image> enemyPics = new ArrayList<>(); // init ts pic b4 that
     private Enemy easyEnemy; // initialize an enemy not here
-    private Label enemyHealth = new Label();
-    private StackPane hitBox = new StackPane();
+    private final Label enemyHealth = new Label();
+    private final StackPane hitBox = new StackPane();
     // hello
     public GamePane() {
         loadEnemyImages();
@@ -67,7 +67,7 @@ public class GamePane extends HBox {
         }
     }
     /*
-     * method for the autoclicking upgrade
+     * method for the auto upgrade
      * every second you get money
      * also hits enemy now
      * */
@@ -81,10 +81,15 @@ public class GamePane extends HBox {
                     System.out.println("auto clicking money" + autoClickRate);
                     // temp
                     double health = easyEnemy.getHealth();
-                    if (health > 0){
-                        easyEnemy.setHealth(health-player.getAutoClickRate());
+                    if (health > 0) {
+                        double newHealth = health - autoClickRate;
+                        if (newHealth <= 0) {
+                            enemyKilled();
+                            newHealth = 0;
+                        }
+                        easyEnemy.setHealth(newHealth);
                         enemyHealth.setText(easyEnemy.healthToString());
-                    } else if (health <= 1) {
+                    } else {
                         enemyKilled();
                     }
                 })
@@ -98,13 +103,13 @@ public class GamePane extends HBox {
      * */
     private void enemyHit(){
         double health = easyEnemy.getHealth();
-        if (health > 0){
-            if(easyEnemy.getHealth()-player.getClickPower() < 0){
+        if(health > 0){
+            double newHealth = health - player.getClickPower();
+            if(newHealth <= 0){
                 enemyKilled();
+                newHealth = 0;
             }
-            easyEnemy.setHealth(health-player.getClickPower());
-        } else if (health <= 1) {
-            enemyKilled();
+            easyEnemy.setHealth(newHealth);
         }
         enemyHealth.setText(easyEnemy.healthToString());
     }
@@ -185,7 +190,7 @@ public class GamePane extends HBox {
      * this is for randomly generating enemies
      * */
     private Enemy makeEnemy(){
-        ArrayList<String> names = new ArrayList<>(Arrays.asList("bob","OT","Joker","Brian","evan","pepperoni","pizza","Vaas","a chicken","evil chicken","not a chicken"));
+        ArrayList<String> names = new ArrayList<>(Arrays.asList("bob","OT","Joker","Brian","evan","pepperoni","pizza","cohen","a chicken","evil chicken","not a chicken"));
         Enemy enemy1 = new Enemy();
         Random r = new Random();
         int rand = r.nextInt(names.size());
@@ -282,15 +287,9 @@ public class GamePane extends HBox {
         achievement1 = new Achievement();
         achievement1.setName("you clicked 100 times");
 
-        upgradeMenu.setOnAction(e -> {
-            switchMenu(upgradeMenu);
-        });
-        achievements.setOnAction(e -> {
-            switchMenu(achievements);
-        });
-        options.setOnAction(e->{
-            switchMenu(options);
-        });
+        upgradeMenu.setOnAction(e -> switchMenu(upgradeMenu));
+        achievements.setOnAction(e -> switchMenu(achievements));
+        options.setOnAction(e-> switchMenu(options));
         buttonArea.setBackground(Background.fill(Color.RED));
         menuBox.getChildren().addAll(buttonArea,upgradeList);
         return menuBox;
