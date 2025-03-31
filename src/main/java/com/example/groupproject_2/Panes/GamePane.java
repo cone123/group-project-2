@@ -38,7 +38,7 @@ public class GamePane extends HBox {
     private Enemy easyEnemy; // initialize an enemy not here
     private Label enemyHealth = new Label();
     private StackPane hitBox = new StackPane();
-
+    // hello
     public GamePane() {
         loadEnemyImages();
         easyEnemy = makeEnemy();
