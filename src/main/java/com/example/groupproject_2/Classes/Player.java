@@ -1,7 +1,6 @@
 package com.example.groupproject_2.Classes;
 
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 
 import java.sql.Date;
 
@@ -13,6 +12,16 @@ public class Player {
     private double goldMultiplier = 1;
     private Date startTime = new Date(System.currentTimeMillis());
     private Scene previousScene = null;
+
+    public String getSaveFile() {
+        return saveFile;
+    }
+
+    public void setSaveFile(String saveFile) {
+        this.saveFile = saveFile;
+    }
+
+    private String saveFile = "";
     public Player(){
     }
     public double getMoney() {

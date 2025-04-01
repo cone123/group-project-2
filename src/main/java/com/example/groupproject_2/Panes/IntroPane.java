@@ -1,8 +1,8 @@
 package com.example.groupproject_2.Panes;
 
 import com.example.groupproject_2.Classes.MusicManager;
+import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
-import com.example.groupproject_2.Scenes.GameScene;
 import com.example.groupproject_2.Scenes.IntroScene;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.*;
@@ -18,15 +18,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.Slider;
 
 
@@ -200,19 +197,20 @@ public class IntroPane extends StackPane {
         // Switch to GameScene on click
         newGame.setOnMouseClicked(e -> {
             MusicManager.stopMusic();
-            player.setPreviousScene(new IntroScene());
-            HelloApplication.mainStage.setScene(new GameScene());
+            player.setPreviousScene(introScene);
+            player.setSaveFile("player.txt");
+            HelloApplication.mainStage.setScene(gameScene);
         });
 
         loadGame.setOnMouseClicked(e -> {
             MusicManager.stopMusic();
-            player.setPreviousScene(new IntroScene());
-            HelloApplication.mainStage.setScene(new GameScene());
+            player.setPreviousScene(introScene);
+            HelloApplication.mainStage.setScene(gameScene);
         });
 
         options.setOnMouseClicked(e -> {
             MusicManager.stopMusic();
-            player.setPreviousScene(new IntroScene());
+            player.setPreviousScene(introScene);
             HelloApplication.mainStage.setScene(new OptionScene());
         });
 

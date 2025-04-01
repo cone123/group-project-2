@@ -1,6 +1,5 @@
 package com.example.groupproject_2.Panes;
 import static com.example.groupproject_2.Const.*;
-
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.*;

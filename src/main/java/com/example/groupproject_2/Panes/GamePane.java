@@ -5,6 +5,7 @@ import com.example.groupproject_2.Classes.Enemy;
 import com.example.groupproject_2.Classes.SoundManager;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
+import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.GameScene;
 import com.example.groupproject_2.Scenes.OptionScene;
@@ -315,7 +316,7 @@ public class GamePane extends HBox {
                 }
                 break;
             case "Options":
-                player.setPreviousScene(new GameScene());
+                player.setPreviousScene(gameScene);
                 System.out.println("set prev scene game");
                 HelloApplication.mainStage.setScene(new OptionScene());
                 break;

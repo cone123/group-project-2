@@ -4,7 +4,6 @@ import com.example.groupproject_2.Classes.MusicManager;
 import com.example.groupproject_2.Classes.SoundManager;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.CreditsScene;
-import com.example.groupproject_2.Scenes.GameScene;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
@@ -55,9 +54,6 @@ public class OptionPane extends StackPane {
         });
 
         back.setOnAction(e -> {
-            if (player.getPreviousScene() == new GameScene()) {
-
-            }
             HelloApplication.mainStage.setScene(player.getPreviousScene());
         });
 

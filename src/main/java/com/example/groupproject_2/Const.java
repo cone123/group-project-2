@@ -1,4 +1,7 @@
 package com.example.groupproject_2;
+import com.example.groupproject_2.Scenes.GameScene;
+import com.example.groupproject_2.Scenes.IntroScene;
+import com.example.groupproject_2.Scenes.OptionScene;
 
 
 
@@ -10,9 +13,10 @@ public class Const {
     //Hit Box size
     public static final int HIT_BOX_SIZE = 75;
 
+    public static final OptionScene optionScene = new OptionScene();
+    public static final GameScene gameScene = new GameScene();
+    public static final IntroScene introScene = new IntroScene();
+    //scenes
 
-    //Title font size
 
-
-    //Body font size
 }
