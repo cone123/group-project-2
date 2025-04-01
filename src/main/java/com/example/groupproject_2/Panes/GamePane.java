@@ -152,6 +152,7 @@ public class GamePane extends HBox {
         player.setTotalClicks(player.getTotalClicks()+1);
         if(player.getTotalClicks() >= 100 && !achievement1.isUnlocked()){
             achievement1.setUnlocked(true);
+            player.setAchievement1(true);
             achievementList.getItems().add(achievement1);
         }
         moneyLabel.setText("$" + player.getMoney());

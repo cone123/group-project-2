@@ -12,6 +12,17 @@ public class Player {
     private double goldMultiplier = 1;
     private Date startTime = new Date(System.currentTimeMillis());
     private Scene previousScene = null;
+    private String saveFile = "";
+    private boolean achievement1 = false;
+
+    public boolean isAchievement1() {
+        return achievement1;
+    }
+
+    public void setAchievement1(boolean achievement1) {
+        this.achievement1 = achievement1;
+    }
+
 
     public String getSaveFile() {
         return saveFile;
@@ -21,7 +32,6 @@ public class Player {
         this.saveFile = saveFile;
     }
 
-    private String saveFile = "";
     public Player(){
     }
     public double getMoney() {

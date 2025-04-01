@@ -27,7 +27,10 @@ import javafx.util.Duration;
 import javafx.scene.control.Slider;
 
 
-
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
@@ -207,13 +210,32 @@ public class IntroPane extends StackPane {
         newGame.setOnMouseClicked(e -> {
             MusicManager.stopMusic();
             player.setPreviousScene(introScene);
-            player.setSaveFile("player.txt");
+            player.setSaveFile(newGameName.getText()+".txt");
             HelloApplication.mainStage.setScene(gameScene);
         });
 
         loadGame.setOnMouseClicked(e -> {
             MusicManager.stopMusic();
             player.setPreviousScene(introScene);
+            player.setSaveFile(loadGameName.getText()+".txt");
+            File saveFile = new File(loadGameName.getText()+".txt");
+            if (!saveFile.exists()) {
+                System.out.println("No save file found. Starting fresh.");
+                return;
+            }
+            try (BufferedReader reader = new BufferedReader(new FileReader(saveFile))) {
+                player.setMoney(Double.parseDouble(reader.readLine()));
+                player.setClickPower(Double.parseDouble(reader.readLine()));
+                player.setAutoClickRate(Double.parseDouble(reader.readLine()));
+                player.setTotalClicks(Integer.parseInt(reader.readLine()));
+                player.setAchievement1(Boolean.parseBoolean(reader.readLine()));
+
+
+                System.out.println("Progress loaded!");
+            } catch (IOException | NumberFormatException ex) {
+                ex.printStackTrace();
+            }
+
             HelloApplication.mainStage.setScene(gameScene);
         });
 

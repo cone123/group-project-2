@@ -16,6 +16,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
+import java.io.*;
+
 import static com.example.groupproject_2.Classes.Player.*;
 import static com.example.groupproject_2.Const.*;
 
@@ -41,6 +43,7 @@ public class OptionPane extends StackPane {
         Button musicToggle = new Button(MusicManager.isMuted() ? "Unmute Music" : "Mute Music");
         Button back = new Button("Back");
         Button credits = new Button("Credits");
+        Button save = new Button("Save");
 
         soundToggle.setOnAction(e -> {
             // stop/play sounds
@@ -56,6 +59,18 @@ public class OptionPane extends StackPane {
         back.setOnAction(e -> {
             HelloApplication.mainStage.setScene(player.getPreviousScene());
         });
+        save.setOnAction(e->{
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(player.getSaveFile()))) {
+                writer.write(player.getMoney() + "\n");
+                writer.write(player.getClickPower() + "\n");
+                writer.write(player.getAutoClickRate() + "\n");
+                writer.write(player.getTotalClicks() + "\n");
+                writer.write(player.isAchievement1()+ "\n");
+                System.out.println("Progress saved!");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         credits.setOnAction(e -> HelloApplication.mainStage.setScene(new CreditsScene()));
 
@@ -68,6 +83,7 @@ public class OptionPane extends StackPane {
         root.add(musicToggle, 0, 4, 1, 1);
         root.add(back, 0, 5, 1, 1);
         root.add(credits, 0, 6, 1, 1);
+        root.add(save,0,7,1,1);
 
         // VBox to hold everything
         VBox wrapper = new VBox(root);
