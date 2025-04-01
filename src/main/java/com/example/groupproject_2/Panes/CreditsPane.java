@@ -40,23 +40,25 @@ public class CreditsPane extends Pane {
         textList.add(new Text("Cohen Poisson"));
         textList.add(new Text("Olivier Tshikani"));
         textList.add(new Text("Resources Used:"));
-        textList.add(new Text("sword.png"));
-        textList.add(new Text("enemy1.png"));
-        textList.add(new Text("vecteezy_cute-devil-monster-character-for-your-creative-design_27294904.png"));
-        textList.add(new Text("vecteezy_delightful-character-design-featuring-a-lovable-monster_27294885.png"));
-        textList.add(new Text("ginbey.png"));
-        textList.add(new Text("vecteezy_endearing-video-game-character-for-tshirt-artwork_27294906.png"));
-        textList.add(new Text("vecteezy_enhance-your-designs-with-a-transparent-cartoon-cow_23546332.png"));
-        textList.add(new Text("vecteezy_imaginative-and-lovable-game-character-for-tshirt-graphic_27294895.png"));
-        textList.add(new Text("goat.png"));
-        textList.add(new Text("monkey.png"));
-        textList.add(new Text("vecteezy_playful-game-character-motif-for-your-creative-project_25175164.png"));
+        textList.add(new Text("blue-and-red-heroes-comic-cartoon-background-abstract-pop-art-comic-sunburst-effect-with-halftones-vector-filtered.jpg"));
         textList.add(new Text("chicken.png"));
+        textList.add(new Text("enemy1.png"));
+        textList.add(new Text("ginbey.png"));
         textList.add(new Text("grass.png"));
+        textList.add(new Text("monkey.png"));
+        textList.add(new Text("sword.png"));
+        textList.add(new Text("two-cliffs-on-sky-background-vector_left.jpg"));
+        textList.add(new Text("two-cliffs-on-sky-background-vector_right.jpg"));
+        textList.add(new Text("vecteezy_delightful-character-design-featuring-a-lovable-monster_27294885.png"));
+        textList.add(new Text("vecteezy_endearing-video-game-character-for-tshirt-artwork_27294906.png"));
+        textList.add(new Text("vecteezy_imaginative-and-lovable-game-character-for-tshirt-graphic_27294895.png"));
+        textList.add(new Text("clickSound.mp3"));
+        textList.add(new Text("introMusic.mp3"));
         textList.add(new Text("Image Credits To:"));
         textList.add(new Text("https://www.vecteezy.com"));
         textList.add(new Text("https://www.pngaaa.com"));
         textList.add(new Text("https://in.pinterest.com/pin/stone-and-grass-platform--13018286414851365"));
+
 
         ParallelTransition scroll = new ParallelTransition();
         int offset = 0;
