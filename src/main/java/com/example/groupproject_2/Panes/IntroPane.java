@@ -1,11 +1,9 @@
 package com.example.groupproject_2.Panes;
 
+import com.example.groupproject_2.Classes.Achievement;
 import com.example.groupproject_2.Classes.MusicManager;
-import com.example.groupproject_2.Classes.Player;
 import com.example.groupproject_2.Classes.Upgrade;
-import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
-import com.example.groupproject_2.Scenes.GameScene;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.*;
 import javafx.geometry.Insets;
@@ -237,6 +235,7 @@ public class IntroPane extends StackPane {
                 Upgrade.autoClickPower.setCurrentCost(Double.parseDouble(reader.readLine()));
                 Upgrade.clickPower.setLevel(Double.parseDouble(reader.readLine()));
                 Upgrade.clickPower.setCurrentCost(Double.parseDouble(reader.readLine()));
+                Achievement.achievement1.setUnlocked(Boolean.parseBoolean(reader.readLine()));
 
                 System.out.println("Progress loaded!");
             } catch (IOException | NumberFormatException ex) {

@@ -5,14 +5,11 @@ import com.example.groupproject_2.Classes.Enemy;
 import com.example.groupproject_2.Classes.SoundManager;
 import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.Classes.Achievement;
-import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
-import com.example.groupproject_2.Scenes.GameScene;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -33,7 +30,6 @@ public class GamePane extends HBox {
     private VBox menuBox;
     private final VBox enemyBox;
     private final VBox playerBox;
-    private Achievement achievement1;
     private Label moneyLabel;
     private Label clickPowerLabel;
     private final List<Image> enemyPics = new ArrayList<>(); // init ts pic b4 that
@@ -140,6 +136,7 @@ public class GamePane extends HBox {
         easyEnemy.getImageView().setPreserveRatio(true);
         hitBox.getChildren().addAll(backgroundRight, easyEnemy.getImageView(), enemyHealth,enemyNameLabel);
     }
+
     /*
      * enemy hit and clickedEnemy are intentionally separate
      * because this is more organized ?
@@ -150,10 +147,11 @@ public class GamePane extends HBox {
         double money = player.getMoney()+player.getClickPower();
         player.setMoney(money);
         player.setTotalClicks(player.getTotalClicks()+1);
-        if(player.getTotalClicks() >= 100 && !achievement1.isUnlocked()){
-            achievement1.setUnlocked(true);
+
+        if(player.getTotalClicks() >= 100 && !Achievement.achievement1.isUnlocked()){
+            Achievement.achievement1.setUnlocked(true);
             player.setAchievement1(true);
-            achievementList.getItems().add(achievement1);
+            achievementList.getItems().add(Achievement.achievement1);
         }
         moneyLabel.setText("$" + player.getMoney());
         clickPowerLabel.setText("Click Power: " + player.getClickPower());
@@ -161,6 +159,7 @@ public class GamePane extends HBox {
         System.out.println("$" + player.getMoney());
         System.out.println("Total Clicks: " + player.getTotalClicks());
     }
+
     /*
      * makes the enemy box initially some of the stuff
      * gets updated when enemyKilled is triggered
@@ -298,8 +297,6 @@ public class GamePane extends HBox {
         achievementList = new ListView<>();
         achievementList.setPrefHeight(700);
         achievementList.setStyle("-fx-control-inner-background: #fff8dc; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 13px;"); //some styling for the achievement list
-        achievement1 = new Achievement();
-        achievement1.setName("you clicked 100 times");
 
         upgradeMenu.setOnAction(e -> switchMenu(upgradeMenu));
         achievements.setOnAction(e -> switchMenu(achievements));

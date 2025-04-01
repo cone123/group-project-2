@@ -1,5 +1,6 @@
 package com.example.groupproject_2.Panes;
 
+import com.example.groupproject_2.Classes.Achievement;
 import com.example.groupproject_2.Classes.MusicManager;
 import com.example.groupproject_2.Classes.SoundManager;
 import com.example.groupproject_2.Classes.Upgrade;
@@ -71,6 +72,7 @@ public class OptionPane extends StackPane {
                 writer.write(Upgrade.autoClickPower.getCurrentCost() + "\n");
                 writer.write(Upgrade.clickPower.getLevel() + "\n");
                 writer.write(Upgrade.clickPower.getCurrentCost() + "\n");
+                writer.write(Achievement.achievement1.isUnlocked() + "\n");
                 System.out.println("Progress saved!");
             } catch (IOException ex) {
                 ex.printStackTrace();

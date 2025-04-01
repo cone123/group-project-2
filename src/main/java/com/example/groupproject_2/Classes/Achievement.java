@@ -4,6 +4,10 @@ public class Achievement {
     private boolean unlocked = false;
     private String name;
 
+    public Achievement(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }
@@ -24,4 +28,8 @@ public class Achievement {
     public String toString() {
         return ""+name;
     }
+
+    public static Achievement achievement1 = new Achievement("you clicked 100 times");
+
+
 }
