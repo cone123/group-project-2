@@ -1,9 +1,7 @@
 package com.example.groupproject_2.Panes;
 
 import com.example.groupproject_2.Classes.MusicManager;
-import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
-import com.example.groupproject_2.Scenes.IntroScene;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.*;
 import javafx.geometry.Insets;
@@ -12,12 +10,14 @@ import javafx.scene.Node;
 import static com.example.groupproject_2.Classes.Player.*;
 import static com.example.groupproject_2.Const.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -54,12 +54,21 @@ public class IntroPane extends StackPane {
         Button newGame = new Button("New Game");
         Button loadGame = new Button("Load Game");
         Button options = new Button("Options");
-
+        VBox newGameBox = new VBox();
+        TextField newGameName = new TextField("");
+        newGameName.setMaxWidth(75);
+        newGameName.setPromptText("your name");
+        VBox loadGameBox = new VBox();
+        TextField loadGameName = new TextField("");
+        loadGameName.setMaxWidth(77);
+        loadGameName.setPromptText("your name");
+        newGameBox.getChildren().addAll(newGame,newGameName);
+        loadGameBox.getChildren().addAll(loadGame,loadGameName);
         newGame.setFocusTraversable(false);
         loadGame.setFocusTraversable(false);
         options.setFocusTraversable(false);
         HBox menuBox = new HBox();
-        menuBox.getChildren().addAll(newGame,loadGame,options);
+        menuBox.getChildren().addAll(newGameBox,loadGameBox,options);
         menuBox.setAlignment(Pos.CENTER);
         menuBox.setPadding(new Insets(0, 0, 150,0));
         menuBox.setScaleX(2);
@@ -254,10 +263,6 @@ public class IntroPane extends StackPane {
         StackPane.setAlignment(volumeControls, Pos.TOP_RIGHT);
         volumeControls.setTranslateX(-10);
         volumeControls.setTranslateY(10);
-
-
-
-
 
 
     }
