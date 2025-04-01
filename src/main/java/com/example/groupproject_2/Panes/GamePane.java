@@ -12,6 +12,7 @@ import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -130,7 +131,9 @@ public class GamePane extends HBox {
         backgroundRight.setTranslateX(-1);
         enemyHealth.setText(easyEnemy.healthToString());
         Label enemyNameLabel = new Label(easyEnemy.getName());
-        enemyNameLabel.setFont(Font.font(20));
+
+        enemyNameLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        enemyNameLabel.setTextFill(Color.BLACK);
         enemyNameLabel.setTranslateY(-HIT_BOX_SIZE-40);
         easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE*2);
         easyEnemy.getImageView().setFitHeight(HIT_BOX_SIZE*2);
@@ -170,13 +173,14 @@ public class GamePane extends HBox {
         backgroundRight.prefHeight(SCREEN_HEIGHT);
         backgroundRight.setTranslateX(-1);
         // health
-        enemyHealth.setFont(Font.font("Arial",FontWeight.BOLD,20));
-        enemyHealth.setTextFill(Color.RED);
+        enemyHealth.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        enemyHealth.setTextFill(Color.ORANGERED);
         enemyHealth.setText(easyEnemy.healthToString());
         enemyHealth.setTranslateY(-HIT_BOX_SIZE -10);
         // name
         Label enemyNameLabel = new Label(easyEnemy.getName());
-        enemyNameLabel.setFont(Font.font(20));
+        enemyNameLabel.setFont(Font.font("Comic Sans MS", FontWeight.BOLD, FontPosture.REGULAR, 20));
+        enemyNameLabel.setTextFill(Color.BLACK);
         enemyNameLabel.setTranslateY(-HIT_BOX_SIZE-40);
 
         easyEnemy.getImageView().setFitWidth(HIT_BOX_SIZE*2);
@@ -219,13 +223,18 @@ public class GamePane extends HBox {
         ImageView backgroundLeft = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/Images/two-cliffs-on-sky-background-vector_left.jpg"))));
         backgroundLeft.setFitWidth((double) SCREEN_WIDTH /3);
         backgroundLeft.prefHeight(SCREEN_HEIGHT);
+
         moneyLabel = new Label("$"+ player.getMoney());
-        moneyLabel.setFont(Font.font("",FontWeight.BOLD, FontPosture.REGULAR,40));
-        moneyLabel.setTextFill(Color.GOLD);
+        moneyLabel.setFont(Font.font("Comic Sans MS",FontWeight.BOLD, FontPosture.REGULAR,40));
+        moneyLabel.setTextFill(Color.GREEN);
         moneyLabel.setTranslateY((double) -SCREEN_HEIGHT /2+30);
         clickPowerLabel = new Label("Click Power: " + player.getClickPower());
+        clickPowerLabel.setFont(Font.font("Comic Sans MS", FontWeight.NORMAL, 16));
+        clickPowerLabel.setTextFill(Color.BLACK);
+
         StackPane playerStack = new StackPane(backgroundLeft, playerImageView, moneyLabel, clickPowerLabel);
         clickPowerLabel.setTranslateY(-200);
+
         playerBox.getChildren().addAll(playerStack);
         playerBox.setMinWidth((double) SCREEN_WIDTH /3);
         return playerBox;
@@ -244,7 +253,7 @@ public class GamePane extends HBox {
      * */
     private VBox createMenu(){
         menuBox = new VBox(10);
-        menuBox.setBackground(Background.fill(Color.YELLOW));
+        menuBox.setBackground(Background.fill(Color.RED));
         menuBox.setMinWidth((double) SCREEN_WIDTH /3);
         HBox buttonArea = new HBox(10);
         buttonArea.setBackground(Background.fill(Color.BLACK));
@@ -252,19 +261,20 @@ public class GamePane extends HBox {
         Button upgradeMenu = new Button("Upgrade Menu");
         Button achievements = new Button("Achievements");
         Button options = new Button("Options");
+
         upgradeMenu.setFocusTraversable(false);
         achievements.setFocusTraversable(false);
         options.setFocusTraversable(false);
         upgradeMenu.setPrefWidth(113);
         achievements.setPrefWidth(113);
         options.setPrefWidth(113);
-        upgradeMenu.setBackground(Background.fill(Color.LIGHTCORAL));
-        achievements.setBackground(Background.fill(Color.LIGHTCORAL));
-        options.setBackground(Background.fill(Color.LIGHTCORAL));
+        upgradeMenu.setBackground(Background.fill(Color.WHITE));
+        achievements.setBackground(Background.fill(Color.WHITE));
+        options.setBackground(Background.fill(Color.WHITE));
         buttonArea.getChildren().addAll(upgradeMenu, achievements, options);
         // list views
         upgradeList = new ListView<>();
-        upgradeList.setStyle("-fx-control-inner-background: #FFD700;");
+        upgradeList.setStyle("-fx-control-inner-background: #fff8dc; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 13px;"); //adding some styling for the upgrade list
         upgradeList.setPrefHeight(700);
         Upgrade clickPower = new Upgrade("click power",10,1.15);
         Upgrade autoClickPower = new Upgrade("auto click power",10,1.2);
@@ -288,6 +298,7 @@ public class GamePane extends HBox {
         // achievements
         achievementList = new ListView<>();
         achievementList.setPrefHeight(700);
+        achievementList.setStyle("-fx-control-inner-background: #fff8dc; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 13px;"); //some styling for the achievement list
         achievement1 = new Achievement();
         achievement1.setName("you clicked 100 times");
 
