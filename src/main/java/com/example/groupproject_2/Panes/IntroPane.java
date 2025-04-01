@@ -1,7 +1,11 @@
 package com.example.groupproject_2.Panes;
 
 import com.example.groupproject_2.Classes.MusicManager;
+import com.example.groupproject_2.Classes.Player;
+import com.example.groupproject_2.Classes.Upgrade;
+import com.example.groupproject_2.Const;
 import com.example.groupproject_2.HelloApplication;
+import com.example.groupproject_2.Scenes.GameScene;
 import com.example.groupproject_2.Scenes.OptionScene;
 import javafx.animation.*;
 import javafx.geometry.Insets;
@@ -224,18 +228,20 @@ public class IntroPane extends StackPane {
                 return;
             }
             try (BufferedReader reader = new BufferedReader(new FileReader(saveFile))) {
-                player.setMoney(Double.parseDouble(reader.readLine()));
                 player.setClickPower(Double.parseDouble(reader.readLine()));
+                player.setMoney(Double.parseDouble(reader.readLine()));
                 player.setAutoClickRate(Double.parseDouble(reader.readLine()));
                 player.setTotalClicks(Integer.parseInt(reader.readLine()));
                 player.setAchievement1(Boolean.parseBoolean(reader.readLine()));
-
+                Upgrade.autoClickPower.setLevel(Double.parseDouble(reader.readLine()));
+                Upgrade.autoClickPower.setCurrentCost(Double.parseDouble(reader.readLine()));
+                Upgrade.clickPower.setLevel(Double.parseDouble(reader.readLine()));
+                Upgrade.clickPower.setCurrentCost(Double.parseDouble(reader.readLine()));
 
                 System.out.println("Progress loaded!");
             } catch (IOException | NumberFormatException ex) {
                 ex.printStackTrace();
             }
-
             HelloApplication.mainStage.setScene(gameScene);
         });
 

@@ -8,11 +8,11 @@ public class Upgrade {
     private double level;
     private double multiplier;
 
-    public Upgrade(String name, double cost, double multiplier) {
+    public Upgrade(String name, double cost, double multiplier, double level) {
         this.name = name;
         this.currentCost = cost;
         this.cost = cost;
-        this.level = 0;
+        this.level = level;
         this.multiplier = multiplier;
     }
 
@@ -67,4 +67,6 @@ public class Upgrade {
         return name + " - Cost: $" + String.format("%.0f", currentCost) +
                 " (Level " + level + ")";
     }
+    public static Upgrade autoClickPower = new Upgrade("auto click power",10,1.2,0.0);
+    public static Upgrade clickPower = new Upgrade("click power",10,1.15,0.0);
 }

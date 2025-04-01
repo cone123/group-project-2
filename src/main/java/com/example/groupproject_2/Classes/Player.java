@@ -82,7 +82,6 @@ public class Player {
 
     public static Player player = new Player();
 
-
     public Scene getPreviousScene() {
         return previousScene;
     }

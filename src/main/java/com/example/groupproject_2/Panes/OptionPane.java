@@ -2,6 +2,7 @@ package com.example.groupproject_2.Panes;
 
 import com.example.groupproject_2.Classes.MusicManager;
 import com.example.groupproject_2.Classes.SoundManager;
+import com.example.groupproject_2.Classes.Upgrade;
 import com.example.groupproject_2.HelloApplication;
 import com.example.groupproject_2.Scenes.CreditsScene;
 import javafx.geometry.Insets;
@@ -61,11 +62,15 @@ public class OptionPane extends StackPane {
         });
         save.setOnAction(e->{
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(player.getSaveFile()))) {
-                writer.write(player.getMoney() + "\n");
                 writer.write(player.getClickPower() + "\n");
+                writer.write(player.getMoney() + "\n");
                 writer.write(player.getAutoClickRate() + "\n");
                 writer.write(player.getTotalClicks() + "\n");
                 writer.write(player.isAchievement1()+ "\n");
+                writer.write(Upgrade.autoClickPower.getLevel() + "\n");
+                writer.write(Upgrade.autoClickPower.getCurrentCost() + "\n");
+                writer.write(Upgrade.clickPower.getLevel() + "\n");
+                writer.write(Upgrade.clickPower.getCurrentCost() + "\n");
                 System.out.println("Progress saved!");
             } catch (IOException ex) {
                 ex.printStackTrace();

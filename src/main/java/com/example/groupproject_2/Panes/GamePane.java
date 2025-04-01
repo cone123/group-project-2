@@ -277,9 +277,7 @@ public class GamePane extends HBox {
         upgradeList = new ListView<>();
         upgradeList.setStyle("-fx-control-inner-background: #fff8dc; -fx-font-family: 'Comic Sans MS'; -fx-font-size: 13px;"); //adding some styling for the upgrade list
         upgradeList.setPrefHeight(700);
-        Upgrade clickPower = new Upgrade("click power",10,1.15);
-        Upgrade autoClickPower = new Upgrade("auto click power",10,1.2);
-        upgradeList.getItems().addAll(clickPower,autoClickPower);
+        upgradeList.getItems().addAll(Upgrade.clickPower,Upgrade.autoClickPower);
         upgradeList.setOnMouseClicked(event -> {
             Upgrade selectedUpgrade = upgradeList.getSelectionModel().getSelectedItem();
             if (selectedUpgrade != null && player.getMoney() >= selectedUpgrade.getCurrentCost()) {
